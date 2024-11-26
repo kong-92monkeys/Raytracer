@@ -211,6 +211,11 @@
   <ItemGroup>
     <Image Include="res\App.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\D3DHelper\D3DHelper.vcxproj">
+      <Project>{22a31107-21a7-4d6a-ad96-20b580540b05}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

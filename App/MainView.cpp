@@ -25,6 +25,9 @@ CMainView::~CMainView()
 
 BEGIN_MESSAGE_MAP(CMainView, CWnd)
 	ON_WM_PAINT()
+	ON_WM_CREATE()
+	ON_WM_SIZE()
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 
@@ -53,3 +56,32 @@ void CMainView::OnPaint()
 	// Do not call CWnd::OnPaint() for painting messages
 }
 
+int CMainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CWnd::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Add your specialized creation code here
+	__pSwapchain = std::make_unique<D3D::Swapchain>(
+		GetSafeHwnd(), lpCreateStruct->cx, lpCreateStruct->cy);
+
+	return 0;
+}
+
+
+void CMainView::OnSize(UINT nType, int cx, int cy)
+{
+	CWnd::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+	__pSwapchain->resize(cx, cy);
+}
+
+
+void CMainView::OnDestroy()
+{
+	CWnd::OnDestroy();
+
+	// TODO: Add your message handler code here
+	__pSwapchain = nullptr;
+}

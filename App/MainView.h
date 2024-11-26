@@ -1,10 +1,10 @@
-
 // MainView.h : interface of the CMainView class
 //
 
-
 #pragma once
 
+#include "../D3DHelper/Swapchain.h"
+#include <memory>
 
 // CMainView window
 
@@ -32,5 +32,12 @@ public:
 protected:
 	afx_msg void OnPaint();
 	DECLARE_MESSAGE_MAP()
+
+private:
+	std::unique_ptr<D3D::Swapchain> __pSwapchain;
+public:
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnDestroy();
 };
 
