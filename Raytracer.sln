@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. D3DHelper", "1. D3DHelpe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DHelper", "D3DHelper\D3DHelper.vcxproj", "{22A31107-21A7-4D6A-AD96-20B580540B05}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. CUDA", "2. CUDA", "{0983AEE3-D749-415E-B36D-0F7B56FD617C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cuda", "Cuda\Cuda.vcxproj", "{1A74E2F1-B13C-48F8-887E-1422733E5E48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -35,6 +39,14 @@ Global
 		{22A31107-21A7-4D6A-AD96-20B580540B05}.Release|x64.Build.0 = Release|x64
 		{22A31107-21A7-4D6A-AD96-20B580540B05}.Release|x86.ActiveCfg = Release|Win32
 		{22A31107-21A7-4D6A-AD96-20B580540B05}.Release|x86.Build.0 = Release|Win32
+		{1A74E2F1-B13C-48F8-887E-1422733E5E48}.Debug|x64.ActiveCfg = Debug|x64
+		{1A74E2F1-B13C-48F8-887E-1422733E5E48}.Debug|x64.Build.0 = Debug|x64
+		{1A74E2F1-B13C-48F8-887E-1422733E5E48}.Debug|x86.ActiveCfg = Debug|Win32
+		{1A74E2F1-B13C-48F8-887E-1422733E5E48}.Debug|x86.Build.0 = Debug|Win32
+		{1A74E2F1-B13C-48F8-887E-1422733E5E48}.Release|x64.ActiveCfg = Release|x64
+		{1A74E2F1-B13C-48F8-887E-1422733E5E48}.Release|x64.Build.0 = Release|x64
+		{1A74E2F1-B13C-48F8-887E-1422733E5E48}.Release|x86.ActiveCfg = Release|Win32
+		{1A74E2F1-B13C-48F8-887E-1422733E5E48}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9241CFFD-E25E-4A50-A0CC-6D8E442798AA} = {D44F54CA-43A6-47D9-8BBA-3A410658813C}
 		{22A31107-21A7-4D6A-AD96-20B580540B05} = {FB79CEE2-7C22-45BC-9E25-261F8E44C591}
+		{1A74E2F1-B13C-48F8-887E-1422733E5E48} = {0983AEE3-D749-415E-B36D-0F7B56FD617C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {21A5E134-8338-4EE9-B10F-D271A2D7EF36}

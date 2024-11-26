@@ -22,15 +22,25 @@ namespace D3D
 
 		HRESULT result{ };
 
+		IDXGISwapChain *pTempSwapchain{ };
+
 		result = D3D11CreateDeviceAndSwapChain(
 			nullptr,
 			D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE,
 			nullptr, 0U, nullptr, 0U,
 			D3D11_SDK_VERSION, &swapchainDesc,
-			&__pSwapChain, &__pDevice, nullptr, &__pContext);
+			&pTempSwapchain, &__pDevice, nullptr, &__pContext);
 
 		if (FAILED(result))
 			throw std::runtime_error{ "Cannot create a swapchain." };
+
+		result = pTempSwapchain->QueryInterface(
+			__uuidof(IDXGISwapChain3), reinterpret_cast<void **>(&__pSwapChain));
+
+		if (FAILED(result))
+			throw std::runtime_error{ "Cannot resolve a IDXGISwapChain3." };
+
+		pTempSwapchain->Release();
 	}
 
 	Swapchain::~Swapchain() noexcept
@@ -51,5 +61,36 @@ namespace D3D
 
 		if (FAILED(result))
 			throw std::runtime_error{ "Cannot resize the swapchain." };
+	}
+
+	UINT Swapchain::getNextImageIndex() noexcept
+	{
+		return __pSwapChain->GetCurrentBackBufferIndex();
+	}
+
+	std::shared_ptr<ID3D11Texture2D> Swapchain::acquireImageOf(
+		UINT const index)
+	{
+		ID3D11Texture2D *pRetVal{ };
+		HRESULT result{ };
+
+		result = __pSwapChain->GetBuffer(
+			index, __uuidof(ID3D11Texture2D), reinterpret_cast<void **>(&pRetVal));
+
+		return std::shared_ptr<ID3D11Texture2D>
+		{
+			pRetVal,
+			Swapchain::__customDeleter<ID3D11Texture2D>
+		};
+	}
+
+	void Swapchain::present()
+	{
+		HRESULT result{ };
+
+		result = __pSwapChain->Present(0U, 0U);
+
+		if (FAILED(result))
+			throw std::runtime_error{ "Cannot present the next image." };
 	}
 }
