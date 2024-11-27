@@ -13,7 +13,7 @@ namespace Cuda
 
 	Surface::~Surface() noexcept
 	{
-		cudaDestroyTextureObject(__handle);
+		cudaDestroyTextureObject(getHandle());
 		cudaGraphicsUnregisterResource(__interopHandle);
 	}
 
@@ -48,6 +48,7 @@ namespace Cuda
 
 		cudaArray_t cuArr{ };
 		result = cudaGraphicsSubResourceGetMappedArray(&cuArr, __interopHandle, 0U, 0U);
+
 		if (result != cudaError_t::cudaSuccess)
 			throw std::runtime_error{ "Cannot resolve a cudaArray." };
 
@@ -55,9 +56,13 @@ namespace Cuda
 		resDesc.resType				= cudaResourceType::cudaResourceTypeArray;
 		resDesc.res.array.array		= cuArr;
 
-		result = cudaCreateSurfaceObject(&__handle, &resDesc);
+		cudaSurfaceObject_t handle{ };
+		result = cudaCreateSurfaceObject(&handle, &resDesc);
+
 		if (result != cudaError_t::cudaSuccess)
 			throw std::runtime_error{ "Cannot create a surface object." };
+
+		_setHandle(handle);
 
 		unmap();
 	}

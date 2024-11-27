@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Infra/Unique.h"
 #include <d3d11.h>
 #include <dxgi1_6.h>
 #include <memory>
@@ -7,7 +8,7 @@
 
 namespace D3D
 {
-	class Swapchain
+	class Swapchain : public Infra::Unique
 	{
 	public:
 		Swapchain(
@@ -16,7 +17,7 @@ namespace D3D
 			UINT height,
 			UINT imageCount);
 
-		virtual ~Swapchain() noexcept;
+		virtual ~Swapchain() noexcept override;
 
 		void resize(
 			UINT width,

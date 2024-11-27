@@ -5,7 +5,7 @@
 
 namespace Cuda
 {
-	class Swapchain
+	class Swapchain : public Infra::Unique
 	{
 	public:
 		Swapchain(

@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>AssetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Bitmap.cpp">
+      <Filter>Bitmap</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredDeleter.cpp">
+      <Filter>DeferredDeleter</Filter>
+    </ClCompile>
+    <ClCompile Include="JobPipe.cpp">
+      <Filter>Executors\JobPipe</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiThreadPool.cpp">
+      <Filter>Executors\MultiThreadPool</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleThreadPool.cpp">
+      <Filter>Executors\SingleThreadPool</Filter>
+    </ClCompile>
+    <ClCompile Include="GenericBuffer.cpp">
+      <Filter>GenericBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Looper.cpp">
+      <Filter>Executors\Looper</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="RegionAllocator.cpp">
+      <Filter>RegionAllocator</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AssetManager.h">
+      <Filter>AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Bitmap.h">
+      <Filter>Bitmap</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferredDeleter.h">
+      <Filter>DeferredDeleter</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferredRecycler.h">
+      <Filter>DeferredRecycler</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Executor.h">
+      <Filter>Executors</Filter>
+    </ClInclude>
+    <ClInclude Include="JobPipe.h">
+      <Filter>Executors\JobPipe</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiThreadPool.h">
+      <Filter>Executors\MultiThreadPool</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleThreadPool.h">
+      <Filter>Executors\SingleThreadPool</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericBuffer.h">
+      <Filter>GenericBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GLM.h">
+      <Filter>GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="Handle.h">
+      <Filter>Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="IdAllocator.h">
+      <Filter>IdAllocator</Filter>
+    </ClInclude>
+    <ClInclude Include="Looper.h">
+      <Filter>Executors\Looper</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="MathUtil.h">
+      <Filter>MathUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="RegionAllocator.h">
+      <Filter>RegionAllocator</Filter>
+    </ClInclude>
+    <ClInclude Include="Stateful.h">
+      <Filter>Stateful</Filter>
+    </ClInclude>
+    <ClInclude Include="Unique.h">
+      <Filter>Unique</Filter>
+    </ClInclude>
+    <ClInclude Include="Updatable.h">
+      <Filter>Updatable</Filter>
+    </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>Version</Filter>
+    </ClInclude>
+    <ClInclude Include="WeakReferenceSet.h">
+      <Filter>WeakReferenceSet</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="AssetManager">
+      <UniqueIdentifier>{8a2887dd-0c07-416d-b94a-696bef1ee7b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bitmap">
+      <UniqueIdentifier>{166b007c-1d99-4730-b0e4-baa9cbc52d6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DeferredDeleter">
+      <UniqueIdentifier>{740c393a-d452-4d7c-ab88-c30c15ce2e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DeferredRecycler">
+      <UniqueIdentifier>{a64d2468-9500-4c1d-b6e9-f3d5d0065237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{9f79069d-c1a8-4e83-b59d-7251b2e016b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Executors">
+      <UniqueIdentifier>{20e07fc6-0d19-4f97-b7be-13dee37ab375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Executors\JobPipe">
+      <UniqueIdentifier>{bffc6902-c89a-4008-aa37-937789354481}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Executors\Looper">
+      <UniqueIdentifier>{255a7fd6-19fb-455d-9000-d6587ca094f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Executors\MultiThreadPool">
+      <UniqueIdentifier>{e670c4fd-1f37-450d-89be-658ed34b3ebf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Executors\SingleThreadPool">
+      <UniqueIdentifier>{3b26643c-edd6-49e3-978f-5ec7b0bbe037}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GenericBuffer">
+      <UniqueIdentifier>{8b844806-4145-4872-9ae7-69e510f2dcbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLM">
+      <UniqueIdentifier>{a1db61dc-f023-4a5a-8b9d-b5d6e8fe8cfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Handle">
+      <UniqueIdentifier>{74d7b428-147a-4f4a-ad75-ffe4b177026b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IdAllocator">
+      <UniqueIdentifier>{0ac7359a-914c-4637-a024-42a07aacf301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logger">
+      <UniqueIdentifier>{776f934a-cffa-40af-83cb-34afd4e505ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MathUtil">
+      <UniqueIdentifier>{5876bcfc-ccef-4b79-a64e-93803b830434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RegionAllocator">
+      <UniqueIdentifier>{d3546a1c-4672-44ef-b30f-35aa5a8e45b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stateful">
+      <UniqueIdentifier>{3c426fa6-93bf-445e-8fb0-571b25f20308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unique">
+      <UniqueIdentifier>{5f3eac71-0701-404c-885e-bf06133e67f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Updatable">
+      <UniqueIdentifier>{5f25523e-9d2a-477f-a240-f4162f7ec240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Version">
+      <UniqueIdentifier>{5eb0a162-7b7f-4451-aaf6-ebfc0b716115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WeakReferenceSet">
+      <UniqueIdentifier>{cc5fd5c4-d118-41df-a212-dc9fdcd66506}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

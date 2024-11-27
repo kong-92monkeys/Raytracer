@@ -1,11 +1,12 @@
 #pragma once
 
+#include "../Infra/Handle.h"
 #include <cuda_runtime.h>
 #include <cuda_d3d11_interop.h>
 
 namespace Cuda
 {
-	class Surface
+	class Surface : public Infra::Handle<cudaSurfaceObject_t>
 	{
 	public:
 		Surface(
@@ -17,12 +18,8 @@ namespace Cuda
 		void map();
 		void unmap();
 
-		[[nodiscard]]
-		constexpr cudaSurfaceObject_t getHandle() noexcept;
-
 	private:
 		cudaGraphicsResource_t __interopHandle{ };
-		cudaSurfaceObject_t __handle{ };
 
 		void __registerInteropHandle(
 			ID3D11Texture2D *pImage,
@@ -30,9 +27,4 @@ namespace Cuda
 
 		void __createHandle();
 	};
-
-	constexpr cudaSurfaceObject_t Surface::getHandle() noexcept
-	{
-		return __handle;
-	}
 }
