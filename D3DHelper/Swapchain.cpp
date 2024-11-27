@@ -73,7 +73,7 @@ namespace D3D
 
 		swapchainDesc.BufferCount			= imageCount;
 		swapchainDesc.BufferUsage			= DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		swapchainDesc.BufferDesc.Format		= DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
+		swapchainDesc.BufferDesc.Format		= DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UINT;
 		swapchainDesc.BufferDesc.Width		= width;
 		swapchainDesc.BufferDesc.Height		= height;
 

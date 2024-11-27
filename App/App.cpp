@@ -73,6 +73,8 @@ BOOL CApp::InitInstance()
 		WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, nullptr,
 		nullptr);
 
+	__customInit();
+
 	// The one and only window has been initialized, so show and update it
 	pFrame->ShowWindow(SW_SHOW);
 	pFrame->UpdateWindow();
@@ -82,6 +84,7 @@ BOOL CApp::InitInstance()
 int CApp::ExitInstance()
 {
 	//TODO: handle additional resources you may have added
+	__pEngine = nullptr;
 	return CWinApp::ExitInstance();
 }
 
@@ -92,4 +95,16 @@ void CApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
+}
+
+void CApp::__customInit()
+{
+	__pEngine = std::make_unique<Render::Engine>();
+}
+
+BOOL CApp::OnIdle(LONG lCount)
+{
+	// TODO: Add your specialized code here and/or call the base class
+	__idleEvent.invoke();
+	return CWinApp::OnIdle(lCount);
 }

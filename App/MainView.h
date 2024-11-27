@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "../Cuda/Swapchain.h"
+#include "../Render/RenderTarget.h"
 #include <memory>
 
 // CMainView window
@@ -34,10 +34,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	std::unique_ptr<Cuda::Swapchain> __pSwapchain;
+	std::unique_ptr<Render::RenderTarget> __pRenderTarget;
+
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnDestroy();
+	afx_msg BOOL OnEraseBkgnd(CDC *pDC);
 };
 

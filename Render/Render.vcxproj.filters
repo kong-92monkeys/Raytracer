@@ -10,6 +10,12 @@
     <Filter Include="RenderTarget">
       <UniqueIdentifier>{f5744187-38b8-467a-9ccb-9fc815d47baa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kernel">
+      <UniqueIdentifier>{843654d0-1313-4cc3-9803-f3f41a508fbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\PixelHandler">
+      <UniqueIdentifier>{c63cc4a9-21cc-4132-98cf-2198070bb650}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -18,10 +24,27 @@
     <ClInclude Include="RenderTarget.h">
       <Filter>RenderTarget</Filter>
     </ClInclude>
+    <ClInclude Include="Kernel.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelHandler.h">
+      <Filter>Kernel\PixelHandler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="RenderTarget.cpp">
+      <Filter>RenderTarget</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="Kernel.cu">
+      <Filter>Kernel</Filter>
+    </CudaCompile>
+    <CudaCompile Include="PixelHandler.cu">
+      <Filter>Kernel\PixelHandler</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>
