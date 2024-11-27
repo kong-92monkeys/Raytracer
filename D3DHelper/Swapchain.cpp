@@ -6,41 +6,10 @@ namespace D3D
 	Swapchain::Swapchain(
 		HWND const hWnd,
 		UINT const width,
-		UINT const height)
+		UINT const height,
+		UINT const imageCount)
 	{
-		DXGI_SWAP_CHAIN_DESC swapchainDesc	{ };
-
-		swapchainDesc.BufferCount			= 3U;
-		swapchainDesc.BufferUsage			= DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		swapchainDesc.BufferDesc.Format		= DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
-		swapchainDesc.BufferDesc.Width		= width;
-		swapchainDesc.BufferDesc.Height		= height;
-
-		swapchainDesc.OutputWindow			= hWnd;
-		swapchainDesc.SampleDesc.Count		= 1;
-		swapchainDesc.Windowed				= TRUE;
-
-		HRESULT result{ };
-
-		IDXGISwapChain *pTempSwapchain{ };
-
-		result = D3D11CreateDeviceAndSwapChain(
-			nullptr,
-			D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE,
-			nullptr, 0U, nullptr, 0U,
-			D3D11_SDK_VERSION, &swapchainDesc,
-			&pTempSwapchain, &__pDevice, nullptr, &__pContext);
-
-		if (FAILED(result))
-			throw std::runtime_error{ "Cannot create a swapchain." };
-
-		result = pTempSwapchain->QueryInterface(
-			__uuidof(IDXGISwapChain3), reinterpret_cast<void **>(&__pSwapChain));
-
-		if (FAILED(result))
-			throw std::runtime_error{ "Cannot resolve a IDXGISwapChain3." };
-
-		pTempSwapchain->Release();
+		__initSwapchain(hWnd, width, height, imageCount);
 	}
 
 	Swapchain::~Swapchain() noexcept
@@ -68,7 +37,7 @@ namespace D3D
 		return __pSwapChain->GetCurrentBackBufferIndex();
 	}
 
-	std::shared_ptr<ID3D11Texture2D> Swapchain::acquireImageOf(
+	std::shared_ptr<ID3D11Texture2D> Swapchain::getImageOf(
 		UINT const index)
 	{
 		ID3D11Texture2D *pRetVal{ };
@@ -92,5 +61,46 @@ namespace D3D
 
 		if (FAILED(result))
 			throw std::runtime_error{ "Cannot present the next image." };
+	}
+
+	void Swapchain::__initSwapchain(
+		HWND const hWnd,
+		UINT const width,
+		UINT const height,
+		UINT const imageCount)
+	{
+		DXGI_SWAP_CHAIN_DESC swapchainDesc	{ };
+
+		swapchainDesc.BufferCount			= imageCount;
+		swapchainDesc.BufferUsage			= DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		swapchainDesc.BufferDesc.Format		= DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
+		swapchainDesc.BufferDesc.Width		= width;
+		swapchainDesc.BufferDesc.Height		= height;
+
+		swapchainDesc.OutputWindow			= hWnd;
+		swapchainDesc.SampleDesc.Count		= 1U;
+		swapchainDesc.Windowed				= TRUE;
+
+		HRESULT result{ };
+
+		IDXGISwapChain *pTempSwapchain{ };
+
+		result = D3D11CreateDeviceAndSwapChain(
+			nullptr,
+			D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE,
+			nullptr, 0U, nullptr, 0U,
+			D3D11_SDK_VERSION, &swapchainDesc,
+			&pTempSwapchain, &__pDevice, nullptr, &__pContext);
+
+		if (FAILED(result))
+			throw std::runtime_error{ "Cannot create a swapchain." };
+
+		result = pTempSwapchain->QueryInterface(
+			__uuidof(IDXGISwapChain3), reinterpret_cast<void **>(&__pSwapChain));
+
+		if (FAILED(result))
+			throw std::runtime_error{ "Cannot resolve a IDXGISwapChain3." };
+
+		pTempSwapchain->Release();
 	}
 }

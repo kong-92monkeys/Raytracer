@@ -1,4 +1,3 @@
-
 // App.cpp : Defines the class behaviors for the application.
 //
 
@@ -8,6 +7,7 @@
 #include "afxdialogex.h"
 #include "App.h"
 #include "MainFrm.h"
+#include "AboutDlg.h"
 
 
 #ifdef _DEBUG
@@ -29,7 +29,7 @@ CApp::CApp() noexcept
 
 	// TODO: replace application ID string below with unique ID string; recommended
 	// format for string is CompanyName.ProductName.SubProduct.VersionInformation
-	SetAppID(_T("App.AppID.NoVersion"));
+	SetAppID(_T("com.92monkeys.raytracer"));
 
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
@@ -59,7 +59,7 @@ BOOL CApp::InitInstance()
 	// Change the registry key under which our settings are stored
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
-	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+	SetRegistryKey(_T("92Monkeys"));
 
 
 	// To create the main window, this code creates a new frame window
@@ -72,10 +72,6 @@ BOOL CApp::InitInstance()
 	pFrame->LoadFrame(IDR_MAINFRAME,
 		WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, nullptr,
 		nullptr);
-
-
-
-
 
 	// The one and only window has been initialized, so show and update it
 	pFrame->ShowWindow(SW_SHOW);
@@ -91,47 +87,9 @@ int CApp::ExitInstance()
 
 // CApp message handlers
 
-
-// CAboutDlg dialog used for App About
-
-class CAboutDlg : public CDialogEx
-{
-public:
-	CAboutDlg() noexcept;
-
-// Dialog Data
-#ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_ABOUTBOX };
-#endif
-
-protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
-// Implementation
-protected:
-	DECLARE_MESSAGE_MAP()
-};
-
-CAboutDlg::CAboutDlg() noexcept : CDialogEx(IDD_ABOUTBOX)
-{
-}
-
-void CAboutDlg::DoDataExchange(CDataExchange* pDX)
-{
-	CDialogEx::DoDataExchange(pDX);
-}
-
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
-END_MESSAGE_MAP()
-
 // App command to run the dialog
 void CApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
 }
-
-// CApp message handlers
-
-
-

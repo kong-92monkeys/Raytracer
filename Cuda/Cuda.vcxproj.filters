@@ -1,6 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Swapchain.h" />
+    <Filter Include="Swapchain">
+      <UniqueIdentifier>{278bda23-9c4c-4349-b4d6-f2c814338d92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Surface">
+      <UniqueIdentifier>{78cab559-338a-4652-8859-37b50f24f9ab}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Swapchain.h">
+      <Filter>Swapchain</Filter>
+    </ClInclude>
+    <ClInclude Include="Surface.h">
+      <Filter>Surface</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Surface.cpp">
+      <Filter>Surface</Filter>
+    </ClCompile>
+    <ClCompile Include="Swapchain.cpp">
+      <Filter>Swapchain</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

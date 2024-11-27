@@ -9,7 +9,6 @@
 
 #include "resource.h"       // main symbols
 
-
 // CApp:
 // See App.cpp for the implementation of this class
 //

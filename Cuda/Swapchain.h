@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../D3DHelper/Swapchain.h"
+#include "Surface.h"
 
 namespace Cuda
 {
@@ -8,14 +9,26 @@ namespace Cuda
 	{
 	public:
 		Swapchain(
-			HWND const hWnd,
-			UINT const width,
-			UINT const height);
+			HWND hWnd,
+			UINT width,
+			UINT height,
+			UINT imageCount);
 
 		virtual ~Swapchain() noexcept;
 
 		void resize(
-			UINT const width,
-			UINT const height);
+			UINT width,
+			UINT height);
+
+		[[nodiscard]]
+		Surface &getNextImage();
+
+		void present();
+
+	private:
+		std::unique_ptr<D3D::Swapchain> __pD3DSwapchain;
+		std::vector<Surface *> __surfaces;
+
+		void __clearSurfaces();
 	};
 }

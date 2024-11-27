@@ -62,8 +62,8 @@ int CMainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 
 	// TODO:  Add your specialized creation code here
-	__pSwapchain = std::make_unique<D3D::Swapchain>(
-		GetSafeHwnd(), lpCreateStruct->cx, lpCreateStruct->cy);
+	__pSwapchain = std::make_unique<Cuda::Swapchain>(
+		GetSafeHwnd(), lpCreateStruct->cx, lpCreateStruct->cy, 3U);
 
 	return 0;
 }

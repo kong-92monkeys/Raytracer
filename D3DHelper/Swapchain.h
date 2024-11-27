@@ -3,6 +3,7 @@
 #include <d3d11.h>
 #include <dxgi1_6.h>
 #include <memory>
+#include <vector>
 
 namespace D3D
 {
@@ -10,21 +11,22 @@ namespace D3D
 	{
 	public:
 		Swapchain(
-			HWND const hWnd,
-			UINT const width,
-			UINT const height);
+			HWND hWnd,
+			UINT width,
+			UINT height,
+			UINT imageCount);
 
 		virtual ~Swapchain() noexcept;
 
 		void resize(
-			UINT const width,
-			UINT const height);
+			UINT width,
+			UINT height);
 
 		[[nodiscard]]
 		UINT getNextImageIndex() noexcept;
 
 		[[nodiscard]]
-		std::shared_ptr<ID3D11Texture2D> acquireImageOf(
+		std::shared_ptr<ID3D11Texture2D> getImageOf(
 			UINT const index);
 
 		void present();
@@ -33,6 +35,14 @@ namespace D3D
 		ID3D11Device *__pDevice{ };
 		ID3D11DeviceContext *__pContext{ };
 		IDXGISwapChain3 *__pSwapChain{ };
+
+		std::vector<ID3D11Texture2D *> __images;
+
+		void __initSwapchain(
+			HWND hWnd,
+			UINT width,
+			UINT height,
+			UINT imageCount);
 
 		template <typename $T>
 		static void __customDeleter(
