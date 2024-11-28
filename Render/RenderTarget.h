@@ -45,6 +45,8 @@ namespace Render
 		Cuda::Stream &__renderStream;
 
 		std::unique_ptr<Cuda::Swapchain> __pSwapchain;
+		std::vector<std::shared_ptr<Cuda::Event>> __launchEvents;
+
 		KernelLauncher __kernelLauncher;
 
 		mutable Infra::Event<RenderTarget const *> __needRedrawEvent;

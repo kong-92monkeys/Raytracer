@@ -33,6 +33,11 @@ namespace Cuda
 		return __pD3DSwapchain->getBackBufferIndex();
 	}
 
+	UINT Swapchain::getNextFrontIndex() noexcept
+	{
+		return ((getBackSurfaceIndex() + 2U) % __pD3DSwapchain->getImageCount());
+	}
+
 	void Swapchain::present()
 	{
 		__pD3DSwapchain->present();

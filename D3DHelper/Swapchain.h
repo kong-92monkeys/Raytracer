@@ -25,6 +25,9 @@ namespace D3D
 		[[nodiscard]]
 		constexpr UINT getHeight() const noexcept;
 
+		[[nodiscard]]
+		constexpr UINT getImageCount() const noexcept;
+
 		void resize(
 			UINT width,
 			UINT height);
@@ -39,6 +42,8 @@ namespace D3D
 		void present();
 
 	private:
+		UINT const __imageCount;
+
 		ID3D11Device *__pDevice{ };
 		ID3D11DeviceContext *__pContext{ };
 		IDXGISwapChain3 *__pSwapchain{ };
@@ -66,6 +71,11 @@ namespace D3D
 	constexpr UINT Swapchain::getHeight() const noexcept
 	{
 		return __height;
+	}
+
+	constexpr UINT Swapchain::getImageCount() const noexcept
+	{
+		return __imageCount;
 	}
 
 	constexpr ID3D11Texture2D *Swapchain::getBufferOf(

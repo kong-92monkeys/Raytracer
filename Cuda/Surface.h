@@ -10,7 +10,7 @@ namespace Cuda
 	{
 	public:
 		Surface(
-			ID3D11Texture2D *pImage,
+			ID3D11Texture2D *pBuffer,
 			cudaGraphicsRegisterFlags registerFlags);
 
 		virtual ~Surface() noexcept;
@@ -20,9 +20,10 @@ namespace Cuda
 
 	private:
 		cudaGraphicsResource_t __interopHandle{ };
+		bool __mapped{ };
 
 		void __registerInteropHandle(
-			ID3D11Texture2D *pImage,
+			ID3D11Texture2D *pBuffer,
 			cudaGraphicsRegisterFlags registerFlags);
 
 		void __createHandle();

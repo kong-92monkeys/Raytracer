@@ -7,7 +7,8 @@ namespace D3D
 		HWND const hWnd,
 		UINT const width,
 		UINT const height,
-		UINT const imageCount)
+		UINT const imageCount) :
+		__imageCount{ imageCount }
 	{
 		__initSwapchain(hWnd, width, height, imageCount);
 

@@ -30,6 +30,9 @@ namespace Cuda
 		UINT getBackSurfaceIndex() noexcept;
 
 		[[nodiscard]]
+		UINT getNextFrontIndex() noexcept;
+
+		[[nodiscard]]
 		constexpr Surface &getSurfaceOf(
 			UINT const index) noexcept;
 

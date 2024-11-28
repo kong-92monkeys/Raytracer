@@ -10,7 +10,10 @@ namespace Render
 		UINT const swapchainImageCount) :
 		__renderStream{ renderStream }
 	{
-		__pSwapchain = std::make_unique<Cuda::Swapchain>(hWnd, width, height, 3U);
+		__pSwapchain = std::make_unique<Cuda::Swapchain>(hWnd, width, height, swapchainImageCount);
+
+		for (UINT iter{ }; iter < swapchainImageCount; ++iter)
+			__launchEvents.emplace_back(std::make_shared<Cuda::Event>());
 
 		__kernelLauncher.setStream(renderStream.getHandle());
 		__kernelLauncher.setGridSize(16U, 16U);
@@ -19,6 +22,7 @@ namespace Render
 
 	RenderTarget::~RenderTarget() noexcept
 	{
+		__launchEvents.clear();
 		__pSwapchain = nullptr;
 	}
 
@@ -32,16 +36,23 @@ namespace Render
 
 	void RenderTarget::draw()
 	{
-		UINT const surfaceIdx{ __pSwapchain->getBackSurfaceIndex() };
+		UINT const backSurfIdx{ __pSwapchain->getBackSurfaceIndex() };
 
-		auto &surface{ __pSwapchain->getSurfaceOf(surfaceIdx) };
-		surface.map();
+		auto &backSurface{ __pSwapchain->getSurfaceOf(backSurfIdx) };
+		backSurface.map();
 
-		__kernelLauncher.launch(surface.getHandle());
+		__kernelLauncher.launch(backSurface.getHandle());
+		__renderStream.recordEvent(*(__launchEvents[backSurfIdx]));
 	}
 
 	void RenderTarget::present()
 	{
+		UINT const nextFrontSurfIdx{ __pSwapchain->getNextFrontIndex() };
+
+		auto &nextFrontSurface{ __pSwapchain->getSurfaceOf(nextFrontSurfIdx) };
+		nextFrontSurface.unmap();
+
+		__renderStream.syncEvent(*(__launchEvents[nextFrontSurfIdx]));
 		__pSwapchain->present();
 	}
 

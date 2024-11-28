@@ -48,11 +48,10 @@ namespace Render
 		//__pDescriptorUpdater->update();
 
 		for (auto const pRenderTarget : __reservedRenderTargets)
+		{
 			pRenderTarget->draw();
-
-		//auto &submissionFence{ __getNextSubmissionFence() };
-		//__pDevice->vkResetFences(1U, &(submissionFence.getHandle()));
-		//__pCommandSubmitter->submit(submissionFence);
+			pRenderTarget->present();
+		}
 
 		//__pCommandSubmitter->present();
 

@@ -64,7 +64,7 @@ int CMainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	__pRenderTarget = std::unique_ptr<Render::RenderTarget>
 	{
 		theApp.createRenderTarget(
-			GetSafeHwnd(), lpCreateStruct->cx, lpCreateStruct->cy, 3U)
+			GetSafeHwnd(), lpCreateStruct->cx, lpCreateStruct->cy, 4U)
 	};
 
 	return 0;
