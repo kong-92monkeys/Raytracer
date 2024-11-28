@@ -32,10 +32,7 @@ namespace Render
 			UINT width,
 			UINT height);
 
-		void requestRedraw() const;
-
 		void draw();
-
 		void present();
 
 		[[nodiscard]]

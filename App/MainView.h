@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "../Frameworks/Display.h"
+#include "../Render/RenderTarget.h"
 
 // CMainView window
 
@@ -33,7 +33,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	std::unique_ptr<Frx::Display> __pDisplay;
+	std::unique_ptr<Render::RenderTarget> __pRenderTarget;
 
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

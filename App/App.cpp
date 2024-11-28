@@ -42,33 +42,27 @@ CApp theApp;
 
 // CApp initialization
 
-Frx::Display *CApp::createDisplay(
+[[nodiscard]]
+Render::RenderTarget *CApp::createRenderTarget(
 	HWND const hwnd,
 	UINT const width,
 	UINT const height,
 	UINT const swapchainImageCount)
 {
-	return __pRenderSystem->createDisplay(
+	return __pRenderEngine->createRenderTarget(
 		hwnd, width, height, swapchainImageCount);
 }
 
-void CApp::setDisplay(
-	Frx::Display *const pDisplay)
+void CApp::reserveRender(
+	Render::RenderTarget *const pRenderTarget)
 {
-	if (__pDisplay == pDisplay)
-		return;
+	__pRenderEngine->reserveRender(pRenderTarget);
+}
 
-	if (__pDisplay)
-	{
-		// TODO: handling prev display
-	}
-
-	__pDisplay = pDisplay;
-
-	if (__pDisplay)
-	{
-		// TODO: handling cur display
-	}
+void CApp::cancelRender(
+	Render::RenderTarget *const pRenderTarget)
+{
+	__pRenderEngine->cancelRender(pRenderTarget);
 }
 
 BOOL CApp::InitInstance()
@@ -112,7 +106,7 @@ BOOL CApp::InitInstance()
 int CApp::ExitInstance()
 {
 	//TODO: handle additional resources you may have added
-	__pRenderSystem = nullptr;
+	__pRenderEngine = nullptr;
 	return CWinApp::ExitInstance();
 }
 
@@ -127,12 +121,12 @@ void CApp::OnAppAbout()
 
 void CApp::__customInit()
 {
-	__pRenderSystem = std::make_unique<Frx::RenderSystem>();
+	__pRenderEngine = std::make_unique<Render::Engine>();
 }
 
 BOOL CApp::OnIdle(LONG lCount)
 {
 	// TODO: Add your specialized code here and/or call the base class
-	__uiIdleEvent.invoke();
+	__pRenderEngine->render();
 	return CWinApp::OnIdle(lCount);
 }

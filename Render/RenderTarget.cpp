@@ -30,11 +30,6 @@ namespace Render
 		__kernelLauncher.setSurfaceExtent(width, height);
 	}
 
-	void RenderTarget::requestRedraw() const
-	{
-		__needRedrawEvent.invoke(this);
-	}
-
 	void RenderTarget::draw()
 	{
 		UINT const surfaceIdx{ __pSwapchain->getBackSurfaceIndex() };
