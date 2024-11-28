@@ -19,12 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="Kernel.h" />
-    <ClInclude Include="KernelContext.h" />
-    <ClInclude Include="KernelLauncher.h" />
-    <ClInclude Include="PixelHandler.h" />
-    <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="RenderSystem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cuda\Cuda.vcxproj">
@@ -36,23 +36,15 @@
     <ProjectReference Include="..\Infra\Infra.vcxproj">
       <Project>{345affd6-6486-4518-94a6-f7e26117ab80}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Engine.cpp" />
-    <CudaCompile Include="PixelHandler.cu">
-      <FileType>Document</FileType>
-    </CudaCompile>
-    <CudaCompile Include="Kernel.cu">
-      <FileType>Document</FileType>
-    </CudaCompile>
-    <ClCompile Include="KernelLauncher.cpp" />
-    <ClCompile Include="RenderTarget.cpp" />
+    <ProjectReference Include="..\Render\Render.vcxproj">
+      <Project>{33554f38-0db4-4362-b3a0-b6d8474eec59}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{33554f38-0db4-4362-b3a0-b6d8474eec59}</ProjectGuid>
-    <RootNamespace>Render</RootNamespace>
+    <ProjectGuid>{9c4e6ac3-ec23-4150-8e89-8a7ce464415d}</ProjectGuid>
+    <RootNamespace>Frameworks</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -84,7 +76,6 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 12.6.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -103,11 +94,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(CUDA_PATH)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(CUDA_PATH)\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(CUDA_PATH)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(CUDA_PATH)\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -161,12 +150,6 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <Lib>
-      <AdditionalDependencies>cudart.lib</AdditionalDependencies>
-    </Lib>
-    <CudaCompile>
-      <GenerateRelocatableDeviceCode>true</GenerateRelocatableDeviceCode>
-    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -190,15 +173,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <Lib>
-      <AdditionalDependencies>cudart.lib</AdditionalDependencies>
-    </Lib>
-    <CudaCompile>
-      <GenerateRelocatableDeviceCode>true</GenerateRelocatableDeviceCode>
-    </CudaCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 12.6.targets" />
   </ImportGroup>
 </Project>

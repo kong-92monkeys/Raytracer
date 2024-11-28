@@ -19,25 +19,34 @@ namespace D3D
 
 		virtual ~Swapchain() noexcept override;
 
+		[[nodiscard]]
+		constexpr UINT getWidth() const noexcept;
+
+		[[nodiscard]]
+		constexpr UINT getHeight() const noexcept;
+
 		void resize(
 			UINT width,
 			UINT height);
 
 		[[nodiscard]]
-		UINT getNextImageIndex() noexcept;
+		UINT getBackBufferIndex() noexcept;
 
 		[[nodiscard]]
-		std::shared_ptr<ID3D11Texture2D> getImageOf(
-			UINT const index);
+		constexpr ID3D11Texture2D *getBufferOf(
+			UINT const index) noexcept;
 
 		void present();
 
 	private:
 		ID3D11Device *__pDevice{ };
 		ID3D11DeviceContext *__pContext{ };
-		IDXGISwapChain3 *__pSwapChain{ };
+		IDXGISwapChain3 *__pSwapchain{ };
 
-		std::vector<ID3D11Texture2D *> __images;
+		std::vector<ID3D11Texture2D *> __buffers;
+		
+		UINT __width{ };
+		UINT __height{ };
 
 		void __initSwapchain(
 			HWND hWnd,
@@ -45,15 +54,23 @@ namespace D3D
 			UINT height,
 			UINT imageCount);
 
-		template <typename $T>
-		static void __customDeleter(
-			$T *pResource);
+		void __resolveBuffers();
+		void __clearBuffers();
 	};
 
-	template <typename $T>
-	static void Swapchain::__customDeleter(
-		$T *const pResource)
+	constexpr UINT Swapchain::getWidth() const noexcept
 	{
-		pResource->Release();
+		return __width;
+	}
+
+	constexpr UINT Swapchain::getHeight() const noexcept
+	{
+		return __height;
+	}
+
+	constexpr ID3D11Texture2D *Swapchain::getBufferOf(
+		UINT const index) noexcept
+	{
+		return __buffers[index];
 	}
 }

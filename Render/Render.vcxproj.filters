@@ -16,6 +16,9 @@
     <Filter Include="Kernel\PixelHandler">
       <UniqueIdentifier>{c63cc4a9-21cc-4132-98cf-2198070bb650}</UniqueIdentifier>
     </Filter>
+    <Filter Include="KernelLauncher">
+      <UniqueIdentifier>{55aef834-bd1e-4d2e-bcb1-2724a7a62d00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -30,6 +33,12 @@
     <ClInclude Include="PixelHandler.h">
       <Filter>Kernel\PixelHandler</Filter>
     </ClInclude>
+    <ClInclude Include="KernelContext.h">
+      <Filter>Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="KernelLauncher.h">
+      <Filter>KernelLauncher</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -37,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="RenderTarget.cpp">
       <Filter>RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="KernelLauncher.cpp">
+      <Filter>KernelLauncher</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

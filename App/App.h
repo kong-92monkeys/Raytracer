@@ -8,7 +8,7 @@
 #endif
 
 #include "resource.h"       // main symbols
-#include "../Render/Engine.h"
+#include "../Frameworks/RenderSystem.h"
 #include "../Infra/Event.h"
 
 // CApp:
@@ -21,7 +21,17 @@ public:
 	CApp() noexcept;
 
 	[[nodiscard]]
-	constexpr Infra::Event<> const &getIdleEvent() noexcept;
+	Frx::Display *createDisplay(
+		HWND hwnd,
+		UINT width,
+		UINT height,
+		UINT swapchainImageCount);
+
+	void setDisplay(
+		Frx::Display *pDisplay);
+
+	[[nodiscard]]
+	constexpr Infra::Event<> const &getUIIdleEvent() noexcept;
 
 // Overrides
 public:
@@ -35,18 +45,19 @@ public:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	std::unique_ptr<Render::Engine> __pEngine;
+	std::unique_ptr<Frx::RenderSystem> __pRenderSystem;
+	Frx::Display *__pDisplay{ };
 
-	mutable Infra::Event<> __idleEvent;
+	mutable Infra::Event<> __uiIdleEvent;
 
 	void __customInit();
 public:
 	virtual BOOL OnIdle(LONG lCount);
 };
 
-constexpr Infra::Event<> const &CApp::getIdleEvent() noexcept
+constexpr Infra::Event<> const &CApp::getUIIdleEvent() noexcept
 {
-	return __idleEvent;
+	return __uiIdleEvent;
 }
 
 extern CApp theApp;

@@ -10,6 +10,7 @@ namespace Cuda
 	{
 		__pD3DSwapchain = std::make_unique<D3D::Swapchain>(hWnd, width, height, imageCount);
 		__surfaces.resize(imageCount);
+		__createSurfaces();
 	}
 
 	Swapchain::~Swapchain() noexcept
@@ -24,30 +25,29 @@ namespace Cuda
 	{
 		__clearSurfaces();
 		__pD3DSwapchain->resize(width, height);
+		__createSurfaces();
 	}
 
-	Surface &Swapchain::getNextImage()
+	UINT Swapchain::getBackSurfaceIndex() noexcept
 	{
-		UINT const nextImageIdx{ __pD3DSwapchain->getNextImageIndex() };
-
-		auto &pRetVal{ __surfaces[nextImageIdx] };
-		if (!pRetVal)
-		{
-			auto const pImage{ __pD3DSwapchain->getImageOf(nextImageIdx) };
-
-			int flags{ };
-			flags |= cudaGraphicsRegisterFlags::cudaGraphicsRegisterFlagsWriteDiscard;
-			flags |= cudaGraphicsRegisterFlags::cudaGraphicsRegisterFlagsSurfaceLoadStore;
-
-			pRetVal = new Surface{ pImage.get(), static_cast<cudaGraphicsRegisterFlags>(flags) };
-		}
-
-		return *pRetVal;
+		return __pD3DSwapchain->getBackBufferIndex();
 	}
 
 	void Swapchain::present()
 	{
 		__pD3DSwapchain->present();
+	}
+
+	void Swapchain::__createSurfaces()
+	{
+		auto const flags{ cudaGraphicsRegisterFlags::cudaGraphicsRegisterFlagsSurfaceLoadStore };
+
+		UINT const surfaceCount{ static_cast<UINT>(__surfaces.size()) };
+		for (UINT idx{ }; idx < surfaceCount; ++idx)
+		{
+			auto const pBuffer{ __pD3DSwapchain->getBufferOf(idx) };
+			__surfaces[idx] = new Surface{ pBuffer, flags };
+		}
 	}
 
 	void Swapchain::__clearSurfaces()

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cuda_runtime.h>
+#include "KernelContext.h"
 
 namespace Render
 {
@@ -12,11 +12,9 @@ namespace Render
 			__device__ PixelHandler(
 				uint32_t gidX,
 				uint32_t gidY,
-				cudaSurfaceObject_t surface) noexcept;
+				SurfaceContext const &surfaceContext) noexcept;
 
-			__device__ bool isValid(
-				uint32_t width,
-				uint32_t height) const noexcept;
+			__device__ bool isValid() const noexcept;
 
 			__device__ void set(
 				uchar4 const &value);
@@ -27,7 +25,7 @@ namespace Render
 		private:
 			uint32_t const __gidX;
 			uint32_t const __gidY;
-			cudaSurfaceObject_t const __surface;
+			SurfaceContext const &__surfaceContext;
 		};
 	}
 }

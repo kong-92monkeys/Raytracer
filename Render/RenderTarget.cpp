@@ -3,13 +3,18 @@
 namespace Render
 {
 	RenderTarget::RenderTarget(
+		Cuda::Stream &renderStream,
 		HWND const hWnd,
 		UINT const width,
 		UINT const height,
-		UINT const swapchainImageCount)
+		UINT const swapchainImageCount) :
+		__renderStream{ renderStream }
 	{
 		__pSwapchain = std::make_unique<Cuda::Swapchain>(hWnd, width, height, 3U);
-		__resolveKernelBlockSize(width, height);
+
+		__kernelLauncher.setStream(renderStream.getHandle());
+		__kernelLauncher.setGridSize(16U, 16U);
+		__kernelLauncher.setSurfaceExtent(width, height);
 	}
 
 	RenderTarget::~RenderTarget() noexcept
@@ -22,18 +27,26 @@ namespace Render
 		UINT const height)
 	{
 		__pSwapchain->resize(width, height);
-		__resolveKernelBlockSize(width, height);
+		__kernelLauncher.setSurfaceExtent(width, height);
 	}
 
-	void RenderTarget::draw(
-		Kernel::EngineContext const &engineContext)
+	void RenderTarget::requestRedraw() const
 	{
-		// draw
-		Kernel::launch(
-			engineContext, __renderTargetContext,
-			__kernelGridSize, __kernelBlockSize);
+		__needRedrawEvent.invoke(this);
+	}
 
-		cudaDeviceSynchronize();
+	void RenderTarget::draw()
+	{
+		UINT const surfaceIdx{ __pSwapchain->getBackSurfaceIndex() };
+
+		auto &surface{ __pSwapchain->getSurfaceOf(surfaceIdx) };
+		surface.map();
+
+		__kernelLauncher.launch(surface.getHandle());
+	}
+
+	void RenderTarget::present()
+	{
 		__pSwapchain->present();
 	}
 

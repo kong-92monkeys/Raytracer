@@ -50,6 +50,7 @@ BOOL CMainView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CMainView::OnPaint() 
 {
+	__pDisplay->requestRedraw();
 	ValidateRect(nullptr);
 }
 
@@ -58,9 +59,11 @@ int CMainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	// TODO:  Add your specialized creation code here
-	__pRenderTarget = std::make_unique<Render::RenderTarget>(
-		GetSafeHwnd(), lpCreateStruct->cx, lpCreateStruct->cy, 3U);
+	__pDisplay = std::unique_ptr<Frx::Display>
+	{
+		theApp.createDisplay(
+			GetSafeHwnd(), lpCreateStruct->cx, lpCreateStruct->cy, 3U)
+	};
 
 	return 0;
 }
@@ -71,7 +74,7 @@ void CMainView::OnSize(UINT nType, int cx, int cy)
 	CWnd::OnSize(nType, cx, cy);
 
 	// TODO: Add your message handler code here
-	__pRenderTarget->resize(cx, cy);
+	__pDisplay->resize(cx, cy);
 }
 
 
@@ -80,7 +83,7 @@ void CMainView::OnDestroy()
 	CWnd::OnDestroy();
 
 	// TODO: Add your message handler code here
-	__pRenderTarget = nullptr;
+	__pDisplay = nullptr;
 }
 
 

@@ -7,15 +7,15 @@ namespace Render
 	namespace Kernel
 	{
 		__global__ void launch_device(
-			EngineContext const engineContext,
-			RenderTargetContext const renderTargetContext)
+			ResourceContext const &resourceContext,
+			SurfaceContext const &surfaceContext)
 		{
 			auto const gidX{ (blockIdx.x * blockDim.x) + threadIdx.x };
 			auto const gidY{ (blockIdx.y * blockDim.y) + threadIdx.y };
 
-			PixelHandler pixelHandler{ gidX, gidY, renderTargetContext.surface };
+			PixelHandler pixelHandler{ gidX, gidY, surfaceContext };
 
-			if (!((pixelHandler.isValid(renderTargetContext.width, renderTargetContext.height))))
+			if (!(pixelHandler.isValid()))
 				return;
 
 			float4 color{ 1.0f, 0.0f, 1.0f, 1.0f };
@@ -23,12 +23,16 @@ namespace Render
 		}
 
 		void launch(
-			EngineContext const &engineContext,
-			RenderTargetContext const &renderTargetContext,
-			dim3 const &gridSize,
-			dim3 const &blockSize)
+			ResourceContext const &resourceContext,
+			SurfaceContext const &surfaceContext,
+			LaunchContext const &launchContext)
 		{
-			launch_device<<<gridSize, blockSize>>>(engineContext, renderTargetContext);
+			launch_device<<<
+				launchContext.gridSize,
+				launchContext.blockSize,
+				0U,
+				launchContext.stream>>>
+				(resourceContext, surfaceContext);
 		}
 	}
 }

@@ -7,23 +7,21 @@ namespace Render
 		__device__ PixelHandler::PixelHandler(
 			uint32_t const gidX,
 			uint32_t const gidY,
-			cudaSurfaceObject_t const surface) noexcept :
-			__gidX		{ gidX },
-			__gidY		{ gidY },
-			__surface	{ surface }
+			SurfaceContext const &surfaceContext) noexcept :
+			__gidX				{ gidX },
+			__gidY				{ gidY },
+			__surfaceContext	{ surfaceContext }
 		{}
 
-		__device__ bool PixelHandler::isValid(
-			uint32_t const width,
-			uint32_t const height) const noexcept
+		__device__ bool PixelHandler::isValid() const noexcept
 		{
-			if (!__surface)
+			if (!__surfaceContext.surface)
 				return false;
 
-			if (__gidX >= width)
+			if (__gidX >= __surfaceContext.width)
 				return false;
 
-			if (__gidY >= height)
+			if (__gidY >= __surfaceContext.height)
 				return false;
 
 			return true;
@@ -32,7 +30,7 @@ namespace Render
 		__device__ void PixelHandler::set(
 			uchar4 const &value)
 		{
-			surf2Dwrite(value, __surface, __gidX * sizeof(uchar4), __gidY);
+			surf2Dwrite(value, __surfaceContext.surface, __gidX * sizeof(uchar4), __gidY);
 		}
 
 		__device__ void PixelHandler::set(

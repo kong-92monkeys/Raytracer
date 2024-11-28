@@ -7,6 +7,12 @@
     <Filter Include="Surface">
       <UniqueIdentifier>{78cab559-338a-4652-8859-37b50f24f9ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Stream">
+      <UniqueIdentifier>{b0287919-5a6d-476e-baab-630a7b76af7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{86ac651e-d5e3-4c21-97be-9f3cf7ec10e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Swapchain.h">
@@ -15,6 +21,12 @@
     <ClInclude Include="Surface.h">
       <Filter>Surface</Filter>
     </ClInclude>
+    <ClInclude Include="Stream.h">
+      <Filter>Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Surface.cpp">
@@ -22,6 +34,12 @@
     </ClCompile>
     <ClCompile Include="Swapchain.cpp">
       <Filter>Swapchain</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream.cpp">
+      <Filter>Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

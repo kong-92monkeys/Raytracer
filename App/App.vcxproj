@@ -226,6 +226,9 @@
     <ProjectReference Include="..\D3DHelper\D3DHelper.vcxproj">
       <Project>{22a31107-21a7-4d6a-ad96-20b580540b05}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Frameworks\Frameworks.vcxproj">
+      <Project>{9c4e6ac3-ec23-4150-8e89-8a7ce464415d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Infra\Infra.vcxproj">
       <Project>{345affd6-6486-4518-94a6-f7e26117ab80}</Project>
     </ProjectReference>

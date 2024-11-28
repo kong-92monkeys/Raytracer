@@ -42,6 +42,35 @@ CApp theApp;
 
 // CApp initialization
 
+Frx::Display *CApp::createDisplay(
+	HWND const hwnd,
+	UINT const width,
+	UINT const height,
+	UINT const swapchainImageCount)
+{
+	return __pRenderSystem->createDisplay(
+		hwnd, width, height, swapchainImageCount);
+}
+
+void CApp::setDisplay(
+	Frx::Display *const pDisplay)
+{
+	if (__pDisplay == pDisplay)
+		return;
+
+	if (__pDisplay)
+	{
+		// TODO: handling prev display
+	}
+
+	__pDisplay = pDisplay;
+
+	if (__pDisplay)
+	{
+		// TODO: handling cur display
+	}
+}
+
 BOOL CApp::InitInstance()
 {
 	CWinApp::InitInstance();
@@ -61,6 +90,7 @@ BOOL CApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("92Monkeys"));
 
+	__customInit();
 
 	// To create the main window, this code creates a new frame window
 	// object and then sets it as the application's main window object
@@ -73,8 +103,6 @@ BOOL CApp::InitInstance()
 		WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, nullptr,
 		nullptr);
 
-	__customInit();
-
 	// The one and only window has been initialized, so show and update it
 	pFrame->ShowWindow(SW_SHOW);
 	pFrame->UpdateWindow();
@@ -84,7 +112,7 @@ BOOL CApp::InitInstance()
 int CApp::ExitInstance()
 {
 	//TODO: handle additional resources you may have added
-	__pEngine = nullptr;
+	__pRenderSystem = nullptr;
 	return CWinApp::ExitInstance();
 }
 
@@ -99,12 +127,12 @@ void CApp::OnAppAbout()
 
 void CApp::__customInit()
 {
-	__pEngine = std::make_unique<Render::Engine>();
+	__pRenderSystem = std::make_unique<Frx::RenderSystem>();
 }
 
 BOOL CApp::OnIdle(LONG lCount)
 {
 	// TODO: Add your specialized code here and/or call the base class
-	__idleEvent.invoke();
+	__uiIdleEvent.invoke();
 	return CWinApp::OnIdle(lCount);
 }

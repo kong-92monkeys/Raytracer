@@ -1,8 +1,9 @@
 #pragma once
 
 #include "../Infra/Stateful.h"
+#include "../Cuda/Stream.h"
 #include "../Cuda/Swapchain.h"
-#include "Kernel.h"
+#include "KernelLauncher.h"
 
 namespace Render
 {
@@ -10,6 +11,7 @@ namespace Render
 	{
 	public:
 		RenderTarget(
+			Cuda::Stream &renderStream,
 			HWND hWnd,
 			UINT width,
 			UINT height,
@@ -17,36 +19,57 @@ namespace Render
 
 		virtual ~RenderTarget() noexcept override;
 
+		[[nodiscard]]
+		constexpr UINT getWidth() const noexcept;
+
+		[[nodiscard]]
+		constexpr UINT getHeight() const noexcept;
+
+		[[nodiscard]]
+		constexpr bool isPresentable() const noexcept;
+
 		void resize(
 			UINT width,
 			UINT height);
 
-		void draw(
-			Kernel::EngineContext const &engineContext);
+		void requestRedraw() const;
+
+		void draw();
+
+		void present();
+
+		[[nodiscard]]
+		constexpr Infra::Event<RenderTarget const *> &getNeedRedrawEvent() const noexcept;
 
 	protected:
 		virtual void _onValidate() override;
 
 	private:
+		Cuda::Stream &__renderStream;
+
 		std::unique_ptr<Cuda::Swapchain> __pSwapchain;
+		KernelLauncher __kernelLauncher;
 
-		dim3 __kernelGridSize;
-		dim3 __kernelBlockSize;
-		Kernel::RenderTargetContext __renderTargetContext;
-
-		constexpr void __resolveKernelBlockSize(
-			UINT width,
-			UINT height) noexcept;
+		mutable Infra::Event<RenderTarget const *> __needRedrawEvent;
 	};
 
-	constexpr void RenderTarget::__resolveKernelBlockSize(
-		UINT const width,
-		UINT const height) noexcept
+	constexpr UINT RenderTarget::getWidth() const noexcept
 	{
-		__kernelBlockSize.x = (width / __kernelGridSize.x);
-		__kernelBlockSize.x += ((width % __kernelGridSize.x) ? 1 : 0);
+		return __pSwapchain->getWidth();
+	}
 
-		__kernelBlockSize.y = (height / __kernelGridSize.y);
-		__kernelBlockSize.y += ((height % __kernelGridSize.y) ? 1 : 0);
+	constexpr UINT RenderTarget::getHeight() const noexcept
+	{
+		return __pSwapchain->getHeight();
+	}
+
+	constexpr bool RenderTarget::isPresentable() const noexcept
+	{
+		return (getWidth() && getHeight());
+	}
+
+	constexpr Infra::Event<RenderTarget const *> &RenderTarget::getNeedRedrawEvent() const noexcept
+	{
+		return __needRedrawEvent;
 	}
 }

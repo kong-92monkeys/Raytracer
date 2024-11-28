@@ -16,12 +16,22 @@ namespace Cuda
 
 		virtual ~Swapchain() noexcept;
 
+		[[nodiscard]]
+		constexpr UINT getWidth() const noexcept;
+
+		[[nodiscard]]
+		constexpr UINT getHeight() const noexcept;
+
 		void resize(
 			UINT width,
 			UINT height);
 
 		[[nodiscard]]
-		Surface &getNextImage();
+		UINT getBackSurfaceIndex() noexcept;
+
+		[[nodiscard]]
+		constexpr Surface &getSurfaceOf(
+			UINT const index) noexcept;
 
 		void present();
 
@@ -29,6 +39,23 @@ namespace Cuda
 		std::unique_ptr<D3D::Swapchain> __pD3DSwapchain;
 		std::vector<Surface *> __surfaces;
 
+		void __createSurfaces();
 		void __clearSurfaces();
 	};
+
+	constexpr UINT Swapchain::getWidth() const noexcept
+	{
+		return __pD3DSwapchain->getWidth();
+	}
+
+	constexpr UINT Swapchain::getHeight() const noexcept
+	{
+		return __pD3DSwapchain->getHeight();
+	}
+
+	constexpr Surface &Swapchain::getSurfaceOf(
+		UINT const index) noexcept
+	{
+		return *(__surfaces[index]);
+	}
 }
