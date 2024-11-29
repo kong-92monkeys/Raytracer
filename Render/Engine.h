@@ -1,5 +1,7 @@
 #pragma once
 
+#include <d3d11.h>
+#include <dxgi.h>
 #include "RenderTarget.h"
 #include <unordered_set>
 
@@ -27,8 +29,18 @@ namespace Render
 		void render();
 
 	private:
+		ID3D11Device *__pDevice{ };
+		ID3D11DeviceContext *__pContext{ };
+
+		IDXGIDevice *__pDXGIDevice{ };
+		IDXGIAdapter *__pDXGIAdapter{ };
+		IDXGIFactory *__pDXGIFactory{ };
+
 		std::unique_ptr<Cuda::Stream> __pRenderStream;
 		std::unordered_set<RenderTarget *> __reservedRenderTargets;
+
+		void __createDevice();
+		void __resolveDXGIReferences();
 
 		void __validateReservedRenderTargets();
 	};

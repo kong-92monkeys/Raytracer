@@ -30,9 +30,6 @@
     <ProjectReference Include="..\Cuda\Cuda.vcxproj">
       <Project>{1a74e2f1-b13c-48f8-887e-1422733e5e48}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\D3DHelper\D3DHelper.vcxproj">
-      <Project>{22a31107-21a7-4d6a-ad96-20b580540b05}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Infra\Infra.vcxproj">
       <Project>{345affd6-6486-4518-94a6-f7e26117ab80}</Project>
     </ProjectReference>
@@ -162,7 +159,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>cudart.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib</AdditionalDependencies>
     </Lib>
     <CudaCompile>
       <GenerateRelocatableDeviceCode>true</GenerateRelocatableDeviceCode>
@@ -191,7 +188,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>cudart.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib</AdditionalDependencies>
     </Lib>
     <CudaCompile>
       <GenerateRelocatableDeviceCode>true</GenerateRelocatableDeviceCode>

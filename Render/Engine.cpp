@@ -4,12 +4,20 @@ namespace Render
 {
 	Engine::Engine()
 	{
+		__createDevice();
+		__resolveDXGIReferences();
 		__pRenderStream = std::make_unique<Cuda::Stream>();
 	}
 
 	Engine::~Engine() noexcept
 	{
 		__pRenderStream = nullptr;
+
+		__pDXGIFactory->Release();
+		__pDXGIAdapter->Release();
+		__pDXGIDevice->Release();
+		__pContext->Release();
+		__pDevice->Release();
 	}
 
 	RenderTarget *Engine::createRenderTarget(
@@ -20,8 +28,8 @@ namespace Render
 	{
 		return new RenderTarget
 		{
-			*__pRenderStream, hWnd,
-			width, height, swapchainImageCount
+			__pDevice, __pDXGIFactory, *__pRenderStream,
+			hWnd, width, height, swapchainImageCount
 		};
 	}
 
@@ -57,6 +65,48 @@ namespace Render
 
 		//__deferredDeleter.advance();
 		__reservedRenderTargets.clear();
+	}
+
+	void Engine::__createDevice()
+	{
+		auto const featureLevel{ D3D_FEATURE_LEVEL::D3D_FEATURE_LEVEL_11_1 };
+
+		HRESULT result{ };
+		result = D3D11CreateDevice(
+			nullptr,
+			D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE,
+			nullptr,
+			0U,
+			&featureLevel, 1U,
+			D3D11_SDK_VERSION,
+			&__pDevice, nullptr, &__pContext);
+
+		if (FAILED(result))
+			throw std::runtime_error{ "Cannot create a device." };
+	}
+
+	void Engine::__resolveDXGIReferences()
+	{
+		HRESULT result{ };
+
+		// DXGI Device
+		result = __pDevice->QueryInterface(
+			__uuidof(IDXGIDevice), reinterpret_cast<void **>(&__pDXGIDevice));
+
+		if (FAILED(result))
+			throw std::runtime_error{ "Cannot resolve the DXGI references." };
+
+		// DXGI Adapter
+		result = __pDXGIDevice->GetAdapter(&__pDXGIAdapter);
+		if (FAILED(result))
+			throw std::runtime_error{ "Cannot resolve the DXGI references." };
+
+		// DXGI Factory
+		result = __pDXGIAdapter->GetParent(
+			__uuidof(IDXGIFactory), reinterpret_cast<void **>(&__pDXGIFactory));
+
+		if (FAILED(result))
+			throw std::runtime_error{ "Cannot resolve the DXGI references." };
 	}
 
 	void Engine::__validateReservedRenderTargets()

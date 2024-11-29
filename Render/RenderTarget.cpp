@@ -3,14 +3,22 @@
 namespace Render
 {
 	RenderTarget::RenderTarget(
+		ID3D11Device *const pDevice,
+		IDXGIFactory *const pDXGIFactory,
 		Cuda::Stream &renderStream,
 		HWND const hWnd,
 		UINT const width,
 		UINT const height,
 		UINT const swapchainImageCount) :
-		__renderStream{ renderStream }
+		__pDevice		{ pDevice },
+		__pDXGIFactory	{ pDXGIFactory },
+		__renderStream	{ renderStream }
 	{
-		__pSwapchain = std::make_unique<Cuda::Swapchain>(hWnd, width, height, swapchainImageCount);
+		__createSwapchain(hWnd, width, height, swapchainImageCount);
+		__resolveBackBuffer();
+
+		__width		= width;
+		__height	= height;
 
 		for (UINT iter{ }; iter < swapchainImageCount; ++iter)
 			__launchEvents.emplace_back(std::make_shared<Cuda::Event>());
@@ -22,42 +30,105 @@ namespace Render
 
 	RenderTarget::~RenderTarget() noexcept
 	{
+		__pBackSurface = nullptr;
+		__pBackBuffer->Release();
+
+		__pSwapchain->Release();
 		__launchEvents.clear();
-		__pSwapchain = nullptr;
 	}
 
 	void RenderTarget::resize(
 		UINT const width,
 		UINT const height)
 	{
-		__pSwapchain->resize(width, height);
+		__pBackSurface = nullptr;
+		__pBackBuffer->Release();
+
+		HRESULT result{ };
+		result = __pSwapchain->ResizeBuffers(0U, width, height, DXGI_FORMAT_UNKNOWN, 0U);
+
+		if (FAILED(result))
+			throw std::runtime_error{ "Cannot resize the swapchain." };
+
+		__resolveBackBuffer();
+
+		__width		= width;
+		__height	= height;
+
 		__kernelLauncher.setSurfaceExtent(width, height);
 	}
 
 	void RenderTarget::draw()
 	{
-		UINT const backSurfIdx{ __pSwapchain->getBackSurfaceIndex() };
+		//UINT const backSurfIdx{ __pSwapchain->getBackSurfaceIndex() };
 
-		auto &backSurface{ __pSwapchain->getSurfaceOf(backSurfIdx) };
-		backSurface.map();
+		//auto &backSurface{ __pSwapchain->getSurfaceOf(backSurfIdx) };
+		__pBackSurface->map();
+		__kernelLauncher.launch(__pBackSurface->getHandle());
 
-		__kernelLauncher.launch(backSurface.getHandle());
-		__renderStream.recordEvent(*(__launchEvents[backSurfIdx]));
+		//__renderStream.recordEvent(*(__launchEvents[backSurfIdx]));
 	}
 
 	void RenderTarget::present()
 	{
-		UINT const nextFrontSurfIdx{ __pSwapchain->getNextFrontIndex() };
+		cudaDeviceSynchronize();
+		__pBackSurface->unmap();
 
-		auto &nextFrontSurface{ __pSwapchain->getSurfaceOf(nextFrontSurfIdx) };
-		nextFrontSurface.unmap();
+		//UINT const nextFrontSurfIdx{ __pSwapchain->getNextFrontIndex() };
 
-		__renderStream.syncEvent(*(__launchEvents[nextFrontSurfIdx]));
-		__pSwapchain->present();
+		//auto &nextFrontSurface{ __pSwapchain->getSurfaceOf(nextFrontSurfIdx) };
+
+		//__renderStream.syncEvent(*(__launchEvents[nextFrontSurfIdx]));
+		HRESULT result{ };
+		result = __pSwapchain->Present(0U, 0U);
+
+		if (FAILED(result))
+			throw std::runtime_error{ "Failed to present the swapchain image." };
 	}
 
 	void RenderTarget::_onValidate()
 	{
 		// TODO
+	}
+
+	void RenderTarget::__createSwapchain(
+		HWND const hWnd,
+		UINT const width,
+		UINT const height,
+		UINT const imageCount)
+	{
+		DXGI_SWAP_CHAIN_DESC swapchainDesc	{ };
+
+		swapchainDesc.BufferDesc.Format		= DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
+		swapchainDesc.BufferDesc.Width		= width;
+		swapchainDesc.BufferDesc.Height		= height;
+		swapchainDesc.SampleDesc.Count		= 1U;
+		swapchainDesc.BufferUsage			= DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		swapchainDesc.BufferCount			= imageCount;
+		swapchainDesc.OutputWindow			= hWnd;
+		swapchainDesc.Windowed				= TRUE;
+		swapchainDesc.SwapEffect			= DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_DISCARD;
+
+		HRESULT result{ };
+		result = __pDXGIFactory->CreateSwapChain(__pDevice, &swapchainDesc, &__pSwapchain);
+
+		if (FAILED(result))
+			throw std::runtime_error{ "Cannot create a swapchain." };
+	}
+
+	void RenderTarget::__resolveBackBuffer()
+	{
+		HRESULT result{ };
+		result = __pSwapchain->GetBuffer(
+			0U, __uuidof(ID3D11Texture2D), reinterpret_cast<void **>(&__pBackBuffer));
+
+		if (FAILED(result))
+			throw std::runtime_error{ "Cannot resolve a swapchain buffer." };
+
+		int iFlags{ };
+		iFlags |= cudaGraphicsRegisterFlags::cudaGraphicsRegisterFlagsSurfaceLoadStore;
+
+		__pBackSurface = std::make_unique<Cuda::Surface>(
+			__pBackBuffer, static_cast<cudaGraphicsRegisterFlags>(iFlags));
 	}
 }

@@ -22,12 +22,8 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="Stream.h" />
     <ClInclude Include="Surface.h" />
-    <ClInclude Include="Swapchain.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\D3DHelper\D3DHelper.vcxproj">
-      <Project>{22a31107-21a7-4d6a-ad96-20b580540b05}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Infra\Infra.vcxproj">
       <Project>{345affd6-6486-4518-94a6-f7e26117ab80}</Project>
     </ProjectReference>
@@ -36,7 +32,6 @@
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Stream.cpp" />
     <ClCompile Include="Surface.cpp" />
-    <ClCompile Include="Swapchain.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

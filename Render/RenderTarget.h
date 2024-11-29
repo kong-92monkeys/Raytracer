@@ -1,8 +1,10 @@
 #pragma once
 
+#include <d3d11.h>
+#include <dxgi.h>
 #include "../Infra/Stateful.h"
 #include "../Cuda/Stream.h"
-#include "../Cuda/Swapchain.h"
+#include "../Cuda/Surface.h"
 #include "KernelLauncher.h"
 
 namespace Render
@@ -11,6 +13,8 @@ namespace Render
 	{
 	public:
 		RenderTarget(
+			ID3D11Device *pDevice,
+			IDXGIFactory *pDXGIFactory,
 			Cuda::Stream &renderStream,
 			HWND hWnd,
 			UINT width,
@@ -42,24 +46,42 @@ namespace Render
 		virtual void _onValidate() override;
 
 	private:
+		ID3D11Device *const __pDevice;
+		IDXGIFactory *const __pDXGIFactory;
+
 		Cuda::Stream &__renderStream;
 
-		std::unique_ptr<Cuda::Swapchain> __pSwapchain;
+		IDXGISwapChain *__pSwapchain{ };
+		ID3D11Texture2D *__pBackBuffer{ };
+
+		std::unique_ptr<Cuda::Surface> __pBackSurface;
+
+		UINT __width{ };
+		UINT __height{ };
+
 		std::vector<std::shared_ptr<Cuda::Event>> __launchEvents;
 
 		KernelLauncher __kernelLauncher;
 
 		mutable Infra::Event<RenderTarget const *> __needRedrawEvent;
+
+		void __createSwapchain(
+			HWND hWnd,
+			UINT width,
+			UINT height,
+			UINT imageCount);
+
+		void __resolveBackBuffer();
 	};
 
 	constexpr UINT RenderTarget::getWidth() const noexcept
 	{
-		return __pSwapchain->getWidth();
+		return __width;
 	}
 
 	constexpr UINT RenderTarget::getHeight() const noexcept
 	{
-		return __pSwapchain->getHeight();
+		return __height;
 	}
 
 	constexpr bool RenderTarget::isPresentable() const noexcept
