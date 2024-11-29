@@ -52,8 +52,6 @@ namespace Render
 		Cuda::Stream &__renderStream;
 
 		IDXGISwapChain *__pSwapchain{ };
-		ID3D11Texture2D *__pBackBuffer{ };
-
 		std::unique_ptr<Cuda::Surface> __pBackSurface;
 
 		UINT __width{ };

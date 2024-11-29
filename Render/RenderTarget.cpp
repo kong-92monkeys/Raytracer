@@ -115,9 +115,11 @@ namespace Render
 
 	void RenderTarget::__resolveBackBuffer()
 	{
+		ID3D11Texture2D *pBackBuffer{ };
+
 		HRESULT result{ };
 		result = __pSwapchain->GetBuffer(
-			0U, __uuidof(ID3D11Texture2D), reinterpret_cast<void **>(&__pBackBuffer));
+			0U, __uuidof(ID3D11Texture2D), reinterpret_cast<void **>(&pBackBuffer));
 
 		if (FAILED(result))
 			throw std::runtime_error{ "Cannot resolve a swapchain buffer." };
@@ -126,8 +128,8 @@ namespace Render
 		iFlags |= cudaGraphicsRegisterFlags::cudaGraphicsRegisterFlagsSurfaceLoadStore;
 
 		__pBackSurface = std::make_unique<Cuda::Surface>(
-			__pBackBuffer, static_cast<cudaGraphicsRegisterFlags>(iFlags));
+			pBackBuffer, static_cast<cudaGraphicsRegisterFlags>(iFlags));
 
-		__pBackBuffer->Release();
+		pBackBuffer->Release();
 	}
 }
