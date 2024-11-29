@@ -7,19 +7,22 @@ namespace Render
 	namespace Kernel
 	{
 		__global__ void launch_device(
-			ResourceContext const &resourceContext,
-			SurfaceContext const &surfaceContext)
+			ResourceContext const resourceContext,
+			SurfaceContext const surfaceContext)
 		{
 			auto const gidX{ (blockIdx.x * blockDim.x) + threadIdx.x };
 			auto const gidY{ (blockIdx.y * blockDim.y) + threadIdx.y };
 
 			PixelHandler pixelHandler{ gidX, gidY, surfaceContext };
 
-			if (!(pixelHandler.isValid()))
+			uchar4 color{ 255, 0, 255, 255 };
+			surf2Dwrite(color, surfaceContext.surface, gidX * sizeof(uchar4), gidY);
+
+			/*if (!(pixelHandler.isValid()))
 				return;
 
-			float4 color{ 1.0f, 0.0f, 1.0f, 1.0f };
-			pixelHandler.set(color);
+			uchar4 color{ 255, 0, 255, 255 };
+			pixelHandler.set(color);*/
 		}
 
 		void launch(

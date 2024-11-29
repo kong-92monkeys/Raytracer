@@ -62,8 +62,10 @@ namespace Render
 
 		blockSize.x = (__surfaceWidth / gridSize.x);
 		blockSize.x += ((__surfaceWidth % gridSize.x) ? 1 : 0);
+		blockSize.x = 4;
 
 		blockSize.y = (__surfaceHeight / gridSize.y);
 		blockSize.y += ((__surfaceHeight % gridSize.y) ? 1 : 0);
+		blockSize.y = 4;
 	}
 }

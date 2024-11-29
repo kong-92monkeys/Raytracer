@@ -31,7 +31,6 @@ namespace Render
 	RenderTarget::~RenderTarget() noexcept
 	{
 		__pBackSurface = nullptr;
-		__pBackBuffer->Release();
 
 		__pSwapchain->Release();
 		__launchEvents.clear();
@@ -42,10 +41,9 @@ namespace Render
 		UINT const height)
 	{
 		__pBackSurface = nullptr;
-		__pBackBuffer->Release();
 
 		HRESULT result{ };
-		result = __pSwapchain->ResizeBuffers(0U, width, height, DXGI_FORMAT_UNKNOWN, 0U);
+		result = __pSwapchain->ResizeBuffers(4U, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0U);
 
 		if (FAILED(result))
 			throw std::runtime_error{ "Cannot resize the swapchain." };
@@ -66,14 +64,13 @@ namespace Render
 		__pBackSurface->map();
 		__kernelLauncher.launch(__pBackSurface->getHandle());
 
+		cudaDeviceSynchronize();
+		__pBackSurface->unmap();
 		//__renderStream.recordEvent(*(__launchEvents[backSurfIdx]));
 	}
 
 	void RenderTarget::present()
 	{
-		cudaDeviceSynchronize();
-		__pBackSurface->unmap();
-
 		//UINT const nextFrontSurfIdx{ __pSwapchain->getNextFrontIndex() };
 
 		//auto &nextFrontSurface{ __pSwapchain->getSurfaceOf(nextFrontSurfIdx) };
@@ -130,5 +127,7 @@ namespace Render
 
 		__pBackSurface = std::make_unique<Cuda::Surface>(
 			__pBackBuffer, static_cast<cudaGraphicsRegisterFlags>(iFlags));
+
+		__pBackBuffer->Release();
 	}
 }
