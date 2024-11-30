@@ -53,16 +53,10 @@ Render::RenderTarget *CApp::createRenderTarget(
 		hwnd, width, height, swapchainImageCount);
 }
 
-void CApp::reserveRender(
+void CApp::setMainRenderTarget(
 	Render::RenderTarget *const pRenderTarget)
 {
-	__pRenderEngine->reserveRender(pRenderTarget);
-}
-
-void CApp::cancelRender(
-	Render::RenderTarget *const pRenderTarget)
-{
-	__pRenderEngine->cancelRender(pRenderTarget);
+	__pMainRenderTarget = pRenderTarget;
 }
 
 BOOL CApp::InitInstance()
@@ -127,6 +121,9 @@ void CApp::__customInit()
 BOOL CApp::OnIdle(LONG lCount)
 {
 	// TODO: Add your specialized code here and/or call the base class
+	if (__pMainRenderTarget)
+		__pRenderEngine->reserveRender(__pMainRenderTarget);
+
 	__pRenderEngine->render();
 	return CWinApp::OnIdle(lCount);
 }

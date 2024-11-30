@@ -28,10 +28,7 @@ public:
 		UINT height,
 		UINT swapchainImageCount);
 
-	void reserveRender(
-		Render::RenderTarget *pRenderTarget);
-
-	void cancelRender(
+	void setMainRenderTarget(
 		Render::RenderTarget *pRenderTarget);
 
 // Overrides
@@ -45,12 +42,14 @@ public:
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
 
-private:
-	std::unique_ptr<Render::Engine> __pRenderEngine;
-
-	void __customInit();
 public:
 	virtual BOOL OnIdle(LONG lCount);
+
+private:
+	std::unique_ptr<Render::Engine> __pRenderEngine;
+	Render::RenderTarget *__pMainRenderTarget{ };
+
+	void __customInit();
 };
 
 extern CApp theApp;

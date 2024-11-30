@@ -45,6 +45,8 @@ namespace Render
 		UINT const height)
 	{
 		__renderStream.sync();
+		__backBufferIdx		= 0U;
+		__frontBufferIdx	= 0U;
 
 		__width		= width;
 		__height	= height;
@@ -67,9 +69,6 @@ namespace Render
 
 	void RenderTarget::draw()
 	{
-		if (!(isPresentable()))
-			return;
-
 		if (__isSwapBufferFull())
 			return;
 
@@ -84,16 +83,14 @@ namespace Render
 
 	void RenderTarget::present()
 	{
-		if (!(isPresentable()))
-			return;
-
 		if (__isSwapBufferEmpty())
 			return;
 
 		auto &frontBuffer	{ *(__swapBuffers[__frontBufferIdx]) };
 		auto &frontEvent	{ *(__launchEvents[__frontBufferIdx]) };
 
-		__renderStream.syncEvent(frontEvent);
+		if (__renderStream.queryEvent(frontEvent) != cudaError_t::cudaSuccess)
+			return;
 
 		__pSwapchainSurface->map();
 		__pSwapchainSurface->copy(

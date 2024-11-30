@@ -50,9 +50,6 @@ BOOL CMainView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CMainView::OnPaint() 
 {
-	if (__pRenderTarget->isPresentable())
-		theApp.reserveRender(__pRenderTarget.get());
-
 	ValidateRect(nullptr);
 }
 
@@ -66,6 +63,8 @@ int CMainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		theApp.createRenderTarget(
 			GetSafeHwnd(), lpCreateStruct->cx, lpCreateStruct->cy, 4U)
 	};
+
+	theApp.setMainRenderTarget(__pRenderTarget.get());
 
 	return 0;
 }
@@ -85,7 +84,7 @@ void CMainView::OnDestroy()
 	CWnd::OnDestroy();
 
 	// TODO: Add your message handler code here
-	theApp.cancelRender(__pRenderTarget.get());
+	theApp.setMainRenderTarget(nullptr);
 	__pRenderTarget = nullptr;
 }
 

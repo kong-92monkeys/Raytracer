@@ -57,6 +57,9 @@ namespace Render
 
 		for (auto const pRenderTarget : __reservedRenderTargets)
 		{
+			if (!(pRenderTarget->isPresentable()))
+				continue;
+
 			pRenderTarget->draw();
 			pRenderTarget->present();
 		}
