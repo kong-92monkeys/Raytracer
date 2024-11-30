@@ -18,12 +18,12 @@ namespace Render
 			uint32_t const x,
 			uint32_t const y) const noexcept
 		{
-			float3 target{ __viewport.origin };
-			target += (__viewport.right * (__stepX * (x + 0.5f)));
-			target += (__viewport.down * (__stepY * (y + 0.5f)));
+			float3 rayDst{ __viewport.viewportOrigin };
+			rayDst += (__viewport.right * (__stepX * (x + 0.5f)));
+			rayDst += (__viewport.down * (__stepY * (y + 0.5f)));
 
-			auto const dir{ normalize(target - __viewport.eye) };
-			return { __viewport.eye, dir };
+			auto const dir{ normalize(rayDst - __viewport.rayOrigin) };
+			return { __viewport.rayOrigin, dir };
 		}
 	}
 }

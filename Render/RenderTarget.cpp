@@ -29,8 +29,8 @@ namespace Render
 		__kernelLauncher.temp_setSphere(float3{ 0.0f, 0.0f, -10.0f }, 1.0f);
 
 		Kernel::Viewport viewport;
-		viewport.eye		= float3{ 0.0f, 0.0f, 0.0f };
-		viewport.origin		= float3{ -4.0f, 4.0f, -4.0f };
+		viewport.rayOrigin		= float3{ 0.0f, 0.0f, 0.0f };
+		viewport.viewportOrigin		= float3{ -4.0f, 4.0f, -4.0f };
 		viewport.right		= float3{ 1.0f, 0.0f, 0.0f };
 		viewport.down		= float3{ 0.0f, -1.0f, 0.0f };
 		viewport.width		= 8.0f;

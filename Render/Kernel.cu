@@ -26,7 +26,11 @@ namespace Render
 
 			auto const result{ renderContext.hittable.hit(ray) };
 			if (result.hit)
-				color.x = 1.0f;
+			{
+				color.x = (result.normal.x + 1.0f) * 0.5f;
+				color.y = (result.normal.y + 1.0f) * 0.5f;
+				color.z = (result.normal.z + 1.0f) * 0.5f;
+			}
 
 			pixelHandler.set(color);
 		}

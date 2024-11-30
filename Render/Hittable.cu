@@ -62,6 +62,7 @@ namespace Render
 				{
 					retVal.hit = true;
 					retVal.spot = ray.at(rayLength);
+					retVal.normal = normalize(retVal.spot - sphereCenter);
 				}
 			}
 

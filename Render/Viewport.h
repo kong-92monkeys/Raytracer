@@ -9,8 +9,8 @@ namespace Render
 		struct Viewport
 		{
 		public:
-			float3 eye{ };
-			float3 origin{ };
+			float3 rayOrigin{ };
+			float3 viewportOrigin{ };
 			float3 right{ };
 			float3 down{ };
 			float width{ };

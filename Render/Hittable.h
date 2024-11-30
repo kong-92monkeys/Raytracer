@@ -17,6 +17,7 @@ namespace Render
 		public:
 			bool hit{ };
 			float3 spot{ };
+			float3 normal{ };
 		};
 
 		class Hittable
