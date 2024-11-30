@@ -32,12 +32,12 @@ protected:
 	afx_msg void OnPaint();
 	DECLARE_MESSAGE_MAP()
 
-private:
-	std::unique_ptr<Render::RenderTarget> __pRenderTarget;
-
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnDestroy();
 	afx_msg BOOL OnEraseBkgnd(CDC *pDC);
+
+private:
+	std::unique_ptr<Render::RenderTarget> __pRenderTarget;
 };

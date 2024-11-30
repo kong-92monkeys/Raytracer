@@ -7,13 +7,16 @@
 namespace Cuda
 {
 	class Surface : public Infra::Handle<cudaSurfaceObject_t>
+	{ };
+
+	class InteropSurface : public Surface
 	{
 	public:
-		Surface(
+		InteropSurface(
 			ID3D11Texture2D *pBuffer,
 			cudaGraphicsRegisterFlags registerFlags);
 
-		virtual ~Surface() noexcept;
+		virtual ~InteropSurface() noexcept;
 
 		void map();
 		void unmap();
@@ -25,6 +28,29 @@ namespace Cuda
 		void __registerInteropHandle(
 			ID3D11Texture2D *pBuffer,
 			cudaGraphicsRegisterFlags registerFlags);
+
+		void __createHandle();
+	};
+
+	class ArraySurface : public Surface
+	{
+	public:
+		ArraySurface(
+			size_t width,
+			size_t height,
+			cudaChannelFormatDesc const &formatDesc,
+			int arrayFlags);
+
+		virtual ~ArraySurface() noexcept;
+
+	private:
+		cudaArray_t __arrHandle{ };
+
+		void __createArray(
+			size_t width,
+			size_t height,
+			cudaChannelFormatDesc const &formatDesc,
+			int arrayFlags);
 
 		void __createHandle();
 	};

@@ -16,10 +16,10 @@ namespace Render
 			ID3D11Device *pDevice,
 			IDXGIFactory *pDXGIFactory,
 			Cuda::Stream &renderStream,
-			HWND hWnd,
+			HWND hwnd,
 			UINT width,
 			UINT height,
-			UINT swapchainImageCount);
+			UINT swapBufferCount);
 
 		virtual ~RenderTarget() noexcept override;
 
@@ -46,13 +46,19 @@ namespace Render
 		virtual void _onValidate() override;
 
 	private:
+		static constexpr UINT __SWAPCHAIN_IMAGE_COUNT{ 3U };
+
 		ID3D11Device *const __pDevice;
 		IDXGIFactory *const __pDXGIFactory;
 
 		Cuda::Stream &__renderStream;
+		UINT const __swapBufferCount;
 
 		IDXGISwapChain *__pSwapchain{ };
-		std::unique_ptr<Cuda::Surface> __pBackSurface;
+		std::unique_ptr<Cuda::InteropSurface> __pBackSurface;
+
+		bool __swapBufferCreated{ };
+		std::vector<Cuda::ArraySurface *> __swapBuffers;
 
 		UINT __width{ };
 		UINT __height{ };
@@ -64,12 +70,12 @@ namespace Render
 		mutable Infra::Event<RenderTarget const *> __needRedrawEvent;
 
 		void __createSwapchain(
-			HWND hWnd,
-			UINT width,
-			UINT height,
-			UINT imageCount);
+			HWND hwnd);
 
-		void __resolveBackBuffer();
+		void __resolveBackSurface();
+
+		void __clearSwapBuffers();
+		void __createSwapBuffers();
 	};
 
 	constexpr UINT RenderTarget::getWidth() const noexcept
