@@ -9,7 +9,8 @@ namespace Render
 		struct ResourceContext
 		{
 		public:
-
+			float3 sphereCenter	{ 0.0f, 0.0f, 0.0f };
+			float sphereRadius	{ 1.0f };
 		};
 
 		struct SurfaceContext

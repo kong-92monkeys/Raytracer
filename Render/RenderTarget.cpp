@@ -75,9 +75,11 @@ namespace Render
 		auto &backBuffer	{ *(__swapBuffers[__backBufferIdx]) };
 		auto &backEvent		{ *(__launchEvents[__backBufferIdx]) };
 
-		__kernelLauncher.launch(backBuffer.getHandle());
+		__kernelLauncher.temp_setSphere(float3{ __width * 0.5f, __height * 0.5f }, 100.0f);
+		__kernelLauncher.setSurface(backBuffer.getHandle());
+		__kernelLauncher.launch();
+
 		__renderStream.recordEvent(backEvent);
-		
 		__rotateBackBuffer();
 	}
 

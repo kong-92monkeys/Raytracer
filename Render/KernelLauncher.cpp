@@ -9,16 +9,8 @@ namespace Render
 		blockDim.y = 16U;
 	}
 
-	void KernelLauncher::launch(
-		cudaSurfaceObject_t const surface) const
+	void KernelLauncher::launch() const
 	{
-		Kernel::SurfaceContext const surfaceContext
-		{
-			surface,
-			__surfaceWidth,
-			__surfaceHeight
-		};
-
-		Kernel::launch(__resourceContext, surfaceContext, __launchContext);
+		Kernel::launch(__resourceContext, __surfaceContext, __launchContext);
 	}
 }

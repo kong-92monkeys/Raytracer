@@ -9,6 +9,13 @@ namespace Render
 	public:
 		KernelLauncher();
 
+		constexpr void temp_setSphere(
+			float3 const &center,
+			float const radius) noexcept;
+
+		constexpr void setSurface(
+			cudaSurfaceObject_t surface) noexcept;
+
 		constexpr void setSurfaceExtent(
 			uint32_t width,
 			uint32_t height) noexcept;
@@ -16,25 +23,36 @@ namespace Render
 		constexpr void setStream(
 			cudaStream_t stream) noexcept;
 
-		void launch(
-			cudaSurfaceObject_t surface) const;
+		void launch() const;
 
 	private:
 		Kernel::ResourceContext __resourceContext;
+		Kernel::SurfaceContext __surfaceContext;
 		Kernel::LaunchContext __launchContext;
-
-		uint32_t __surfaceWidth		{ 1U };
-		uint32_t __surfaceHeight	{ 1U };
 
 		constexpr void __resolveBlockSize() noexcept;
 	};
+
+	constexpr void KernelLauncher::temp_setSphere(
+		float3 const &center,
+		float const radius) noexcept
+	{
+		__resourceContext.sphereCenter = center;
+		__resourceContext.sphereRadius = radius;
+	}
+
+	constexpr void KernelLauncher::setSurface(
+		cudaSurfaceObject_t const surface) noexcept
+	{
+		__surfaceContext.surface = surface;
+	}
 
 	constexpr void KernelLauncher::setSurfaceExtent(
 		uint32_t const width,
 		uint32_t const height) noexcept
 	{
-		__surfaceWidth		= width;
-		__surfaceHeight		= height;
+		__surfaceContext.width		= width;
+		__surfaceContext.height		= height;
 		__resolveBlockSize();
 	}
 
@@ -49,10 +67,10 @@ namespace Render
 		auto &gridDim			{ __launchContext.gridDim };
 		auto const &blockDim	{ __launchContext.blockDim };
 
-		gridDim.x = (__surfaceWidth / blockDim.x);
-		gridDim.x += ((__surfaceWidth % blockDim.x) ? 1 : 0);
+		gridDim.x = (__surfaceContext.width / blockDim.x);
+		gridDim.x += ((__surfaceContext.width % blockDim.x) ? 1 : 0);
 
-		gridDim.y = (__surfaceHeight / blockDim.y);
-		gridDim.y += ((__surfaceHeight % blockDim.y) ? 1 : 0);
+		gridDim.y = (__surfaceContext.height / blockDim.y);
+		gridDim.y += ((__surfaceContext.height % blockDim.y) ? 1 : 0);
 	}
 }

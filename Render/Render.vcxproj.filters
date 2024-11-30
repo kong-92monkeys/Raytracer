@@ -39,6 +39,9 @@
     <ClInclude Include="KernelLauncher.h">
       <Filter>KernelLauncher</Filter>
     </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Layer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">

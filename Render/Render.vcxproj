@@ -23,6 +23,7 @@
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="KernelContext.h" />
     <ClInclude Include="KernelLauncher.h" />
+    <ClInclude Include="Layer.h" />
     <ClInclude Include="PixelHandler.h" />
     <ClInclude Include="RenderTarget.h" />
   </ItemGroup>
