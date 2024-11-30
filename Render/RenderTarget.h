@@ -55,10 +55,13 @@ namespace Render
 		UINT const __swapBufferCount;
 
 		IDXGISwapChain *__pSwapchain{ };
-		std::unique_ptr<Cuda::InteropSurface> __pBackSurface;
+		std::unique_ptr<Cuda::InteropSurface> __pSwapchainSurface;
 
 		bool __swapBufferCreated{ };
 		std::vector<Cuda::ArraySurface *> __swapBuffers;
+
+		UINT __frontBufferIdx{ };
+		UINT __backBufferIdx{ };
 
 		UINT __width{ };
 		UINT __height{ };
@@ -76,6 +79,21 @@ namespace Render
 
 		void __clearSwapBuffers();
 		void __createSwapBuffers();
+
+		[[nodiscard]]
+		constexpr UINT __getNextFrontBufferIdx() const noexcept;
+
+		[[nodiscard]]
+		constexpr UINT __getNextBackBufferIdx() const noexcept;
+
+		[[nodiscard]]
+		constexpr bool __isSwapBufferEmpty() const noexcept;
+
+		[[nodiscard]]
+		constexpr bool __isSwapBufferFull() const noexcept;
+
+		constexpr void __rotateFrontBuffer() noexcept;
+		constexpr void __rotateBackBuffer() noexcept;
 	};
 
 	constexpr UINT RenderTarget::getWidth() const noexcept
@@ -96,5 +114,35 @@ namespace Render
 	constexpr Infra::Event<RenderTarget const *> &RenderTarget::getNeedRedrawEvent() const noexcept
 	{
 		return __needRedrawEvent;
+	}
+
+	constexpr UINT RenderTarget::__getNextFrontBufferIdx() const noexcept
+	{
+		return ((__frontBufferIdx + 1U) % __swapBufferCount);
+	}
+
+	constexpr UINT RenderTarget::__getNextBackBufferIdx() const noexcept
+	{
+		return ((__backBufferIdx + 1U) % __swapBufferCount);
+	}
+
+	constexpr bool RenderTarget::__isSwapBufferEmpty() const noexcept
+	{
+		return (__frontBufferIdx == __backBufferIdx);
+	}
+
+	constexpr bool RenderTarget::__isSwapBufferFull() const noexcept
+	{
+		return (__frontBufferIdx == __getNextBackBufferIdx());
+	}
+
+	constexpr void RenderTarget::__rotateFrontBuffer() noexcept
+	{
+		__frontBufferIdx = __getNextFrontBufferIdx();
+	}
+
+	constexpr void RenderTarget::__rotateBackBuffer() noexcept
+	{
+		__backBufferIdx = __getNextBackBufferIdx();
 	}
 }

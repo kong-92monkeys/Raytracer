@@ -3,6 +3,25 @@
 
 namespace Cuda
 {
+	void Surface::copy(
+		Surface const &src,
+		size_t const wOffsetDst, size_t const hOffsetDst,
+		size_t const wOffsetSrc, size_t const hOffsetSrc,
+		size_t const width, size_t const height)
+	{
+		cudaError_t result{ };
+
+		result = cudaMemcpy2DArrayToArray(
+			getArrayHandle(),
+			wOffsetDst, hOffsetDst,
+			src.getArrayHandle(),
+			wOffsetSrc, hOffsetSrc,
+			width, height, cudaMemcpyKind::cudaMemcpyDeviceToDevice);
+
+		if (result != cudaError_t::cudaSuccess)
+			throw std::runtime_error{ "Cannot copy from the surface." };
+	}
+
 	InteropSurface::InteropSurface(
 		ID3D11Texture2D *const pBuffer,
 		cudaGraphicsRegisterFlags const registerFlags)
@@ -56,15 +75,15 @@ namespace Cuda
 
 		map();
 
-		cudaArray_t cuArr{ };
-		result = cudaGraphicsSubResourceGetMappedArray(&cuArr, __interopHandle, 0U, 0U);
+		cudaArray_t arrHandle{ };
+		result = cudaGraphicsSubResourceGetMappedArray(&arrHandle, __interopHandle, 0U, 0U);
 
 		if (result != cudaError_t::cudaSuccess)
 			throw std::runtime_error{ "Cannot resolve a cudaArray." };
 
 		cudaResourceDesc resDesc{ };
 		resDesc.resType				= cudaResourceType::cudaResourceTypeArray;
-		resDesc.res.array.array		= cuArr;
+		resDesc.res.array.array		= arrHandle;
 
 		cudaSurfaceObject_t handle{ };
 		result = cudaCreateSurfaceObject(&handle, &resDesc);
@@ -72,7 +91,9 @@ namespace Cuda
 		if (result != cudaError_t::cudaSuccess)
 			throw std::runtime_error{ "Cannot create a surface object." };
 
+		_setArrayHandle(arrHandle);
 		_setHandle(handle);
+
 		unmap();
 	}
 
@@ -89,7 +110,7 @@ namespace Cuda
 	ArraySurface::~ArraySurface() noexcept
 	{
 		cudaDestroySurfaceObject(getHandle());
-		cudaFreeArray(__arrHandle);
+		cudaFreeArray(getArrayHandle());
 	}
 
 	void ArraySurface::__createArray(
@@ -99,10 +120,14 @@ namespace Cuda
 		int const arrayFlags)
 	{
 		cudaError_t result{ };
-		result = cudaMallocArray(&__arrHandle, &formatDesc, width, height, arrayFlags);
+
+		cudaArray_t arrHandle{ };
+		result = cudaMallocArray(&arrHandle, &formatDesc, width, height, arrayFlags);
 
 		if (result != cudaError_t::cudaSuccess)
 			throw std::runtime_error{ "Cannot create a cudaArray." };
+
+		_setArrayHandle(arrHandle);
 	}
 
 	void ArraySurface::__createHandle()
@@ -111,7 +136,7 @@ namespace Cuda
 
 		cudaResourceDesc resDesc{ };
 		resDesc.resType = cudaResourceType::cudaResourceTypeArray;
-		resDesc.res.array.array = __arrHandle;
+		resDesc.res.array.array = getArrayHandle();
 
 		cudaSurfaceObject_t handle{ };
 		result = cudaCreateSurfaceObject(&handle, &resDesc);

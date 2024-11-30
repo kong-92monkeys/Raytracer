@@ -7,7 +7,24 @@
 namespace Cuda
 {
 	class Surface : public Infra::Handle<cudaSurfaceObject_t>
-	{ };
+	{
+	public:
+		void copy(
+			Surface const &src,
+			size_t wOffsetDst, size_t hOffsetDst,
+			size_t wOffsetSrc, size_t hOffsetSrc,
+			size_t width, size_t height);
+
+		[[nodiscard]]
+		constexpr cudaArray_t const &getArrayHandle() const noexcept;
+
+	protected:
+		constexpr void _setArrayHandle(
+			cudaArray_t handle) noexcept;
+
+	private:
+		cudaArray_t __arrHandle{ };
+	};
 
 	class InteropSurface : public Surface
 	{
@@ -44,8 +61,6 @@ namespace Cuda
 		virtual ~ArraySurface() noexcept;
 
 	private:
-		cudaArray_t __arrHandle{ };
-
 		void __createArray(
 			size_t width,
 			size_t height,
@@ -54,4 +69,15 @@ namespace Cuda
 
 		void __createHandle();
 	};
+
+	constexpr cudaArray_t const &Surface::getArrayHandle() const noexcept
+	{
+		return __arrHandle;
+	}
+
+	constexpr void Surface::_setArrayHandle(
+		cudaArray_t const handle) noexcept
+	{
+		__arrHandle = handle;
+	}
 }

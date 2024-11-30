@@ -35,7 +35,7 @@ namespace Render
 	RenderTarget::~RenderTarget() noexcept
 	{
 		__clearSwapBuffers();
-		__pBackSurface = nullptr;
+		__pSwapchainSurface = nullptr;
 		__pSwapchain->Release();
 		__launchEvents.clear();
 	}
@@ -44,12 +44,14 @@ namespace Render
 		UINT const width,
 		UINT const height)
 	{
+		__renderStream.sync();
+
 		__width		= width;
 		__height	= height;
 		__kernelLauncher.setSurfaceExtent(width, height);
 
 		__clearSwapBuffers();
-		__pBackSurface = nullptr;
+		__pSwapchainSurface = nullptr;
 
 		HRESULT result{ };
 		result = __pSwapchain->ResizeBuffers(0U, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0U);
@@ -68,15 +70,16 @@ namespace Render
 		if (!(isPresentable()))
 			return;
 
-		//UINT const backSurfIdx{ __pSwapchain->getBackSurfaceIndex() };
+		if (__isSwapBufferFull())
+			return;
 
-		//auto &backSurface{ __pSwapchain->getSurfaceOf(backSurfIdx) };
-		__pBackSurface->map();
-		__kernelLauncher.launch(__pBackSurface->getHandle());
+		auto &backBuffer	{ *(__swapBuffers[__backBufferIdx]) };
+		auto &backEvent		{ *(__launchEvents[__backBufferIdx]) };
 
-		cudaDeviceSynchronize();
-		__pBackSurface->unmap();
-		//__renderStream.recordEvent(*(__launchEvents[backSurfIdx]));
+		__kernelLauncher.launch(backBuffer.getHandle());
+		__renderStream.recordEvent(backEvent);
+		
+		__rotateBackBuffer();
 	}
 
 	void RenderTarget::present()
@@ -84,16 +87,28 @@ namespace Render
 		if (!(isPresentable()))
 			return;
 
-		//UINT const nextFrontSurfIdx{ __pSwapchain->getNextFrontIndex() };
+		if (__isSwapBufferEmpty())
+			return;
 
-		//auto &nextFrontSurface{ __pSwapchain->getSurfaceOf(nextFrontSurfIdx) };
+		auto &frontBuffer	{ *(__swapBuffers[__frontBufferIdx]) };
+		auto &frontEvent	{ *(__launchEvents[__frontBufferIdx]) };
 
-		//__renderStream.syncEvent(*(__launchEvents[nextFrontSurfIdx]));
+		__renderStream.syncEvent(frontEvent);
+
+		__pSwapchainSurface->map();
+		__pSwapchainSurface->copy(
+			frontBuffer, 0ULL, 0ULL, 0ULL, 0ULL,
+			__width * sizeof(uchar4), __height);
+
+		__pSwapchainSurface->unmap();
+
 		HRESULT result{ };
 		result = __pSwapchain->Present(0U, 0U);
 
 		if (FAILED(result))
 			throw std::runtime_error{ "Failed to present the swapchain image." };
+
+		__rotateFrontBuffer();
 	}
 
 	void RenderTarget::_onValidate()
@@ -137,7 +152,7 @@ namespace Render
 		int iFlags{ };
 		iFlags |= cudaGraphicsRegisterFlags::cudaGraphicsRegisterFlagsSurfaceLoadStore;
 
-		__pBackSurface = std::make_unique<Cuda::InteropSurface>(
+		__pSwapchainSurface = std::make_unique<Cuda::InteropSurface>(
 			pBackBuffer, static_cast<cudaGraphicsRegisterFlags>(iFlags));
 
 		pBackBuffer->Release();
