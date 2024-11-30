@@ -18,7 +18,7 @@ namespace Render
 			if (!(pixelHandler.isValid()))
 				return;
 
-			uchar4 color{ 255, 0, 255, 255 };
+			float4 color{ 0.0f, 1.0f, 1.0f, 1.0f };
 			pixelHandler.set(color);
 		}
 

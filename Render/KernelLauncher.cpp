@@ -2,6 +2,13 @@
 
 namespace Render
 {
+	KernelLauncher::KernelLauncher()
+	{
+		auto &blockDim{ __launchContext.blockDim };
+		blockDim.x = 16U;
+		blockDim.y = 16U;
+	}
+
 	void KernelLauncher::launch(
 		cudaSurfaceObject_t const surface) const
 	{

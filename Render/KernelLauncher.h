@@ -7,6 +7,8 @@ namespace Render
 	class KernelLauncher
 	{
 	public:
+		KernelLauncher();
+
 		constexpr void setSurfaceExtent(
 			uint32_t width,
 			uint32_t height) noexcept;
@@ -44,11 +46,8 @@ namespace Render
 
 	constexpr void KernelLauncher::__resolveBlockSize() noexcept
 	{
-		auto &gridDim	{ __launchContext.gridDim };
-		auto &blockDim	{ __launchContext.blockDim };
-
-		blockDim.x = 16U;
-		blockDim.y = 16U;
+		auto &gridDim			{ __launchContext.gridDim };
+		auto const &blockDim	{ __launchContext.blockDim };
 
 		gridDim.x = (__surfaceWidth / blockDim.x);
 		gridDim.x += ((__surfaceWidth % blockDim.x) ? 1 : 0);
