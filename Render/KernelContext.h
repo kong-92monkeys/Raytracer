@@ -23,8 +23,8 @@ namespace Render
 		struct LaunchContext
 		{
 		public:
-			dim3 gridSize{ };
-			dim3 blockSize{ };
+			dim3 gridDim{ };
+			dim3 blockDim{ };
 			cudaStream_t stream{ };
 		};
 	}

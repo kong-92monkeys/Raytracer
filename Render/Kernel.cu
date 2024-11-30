@@ -15,14 +15,11 @@ namespace Render
 
 			PixelHandler pixelHandler{ gidX, gidY, surfaceContext };
 
-			uchar4 color{ 255, 0, 255, 255 };
-			surf2Dwrite(color, surfaceContext.surface, gidX * sizeof(uchar4), gidY);
-
-			/*if (!(pixelHandler.isValid()))
+			if (!(pixelHandler.isValid()))
 				return;
 
 			uchar4 color{ 255, 0, 255, 255 };
-			pixelHandler.set(color);*/
+			pixelHandler.set(color);
 		}
 
 		void launch(
@@ -31,8 +28,8 @@ namespace Render
 			LaunchContext const &launchContext)
 		{
 			launch_device<<<
-				launchContext.gridSize,
-				launchContext.blockSize,
+				launchContext.gridDim,
+				launchContext.blockDim,
 				0U,
 				launchContext.stream>>>
 				(resourceContext, surfaceContext);

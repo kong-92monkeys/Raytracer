@@ -11,10 +11,6 @@ namespace Render
 			uint32_t width,
 			uint32_t height) noexcept;
 
-		constexpr void setGridSize(
-			uint32_t x,
-			uint32_t y) noexcept;
-
 		constexpr void setStream(
 			cudaStream_t stream) noexcept;
 
@@ -40,15 +36,6 @@ namespace Render
 		__resolveBlockSize();
 	}
 
-	constexpr void KernelLauncher::setGridSize(
-		uint32_t const x,
-		uint32_t const y) noexcept
-	{
-		__launchContext.gridSize.x = x;
-		__launchContext.gridSize.y = y;
-		__resolveBlockSize();
-	}
-
 	constexpr void KernelLauncher::setStream(
 		cudaStream_t const stream) noexcept
 	{
@@ -57,15 +44,16 @@ namespace Render
 
 	constexpr void KernelLauncher::__resolveBlockSize() noexcept
 	{
-		auto const &gridSize	{ __launchContext.gridSize };
-		auto &blockSize			{ __launchContext.blockSize };
+		auto &gridDim	{ __launchContext.gridDim };
+		auto &blockDim	{ __launchContext.blockDim };
 
-		blockSize.x = (__surfaceWidth / gridSize.x);
-		blockSize.x += ((__surfaceWidth % gridSize.x) ? 1 : 0);
-		blockSize.x = 4;
+		blockDim.x = 16U;
+		blockDim.y = 16U;
 
-		blockSize.y = (__surfaceHeight / gridSize.y);
-		blockSize.y += ((__surfaceHeight % gridSize.y) ? 1 : 0);
-		blockSize.y = 4;
+		gridDim.x = (__surfaceWidth / blockDim.x);
+		gridDim.x += ((__surfaceWidth % blockDim.x) ? 1 : 0);
+
+		gridDim.y = (__surfaceHeight / blockDim.y);
+		gridDim.y += ((__surfaceHeight % blockDim.y) ? 1 : 0);
 	}
 }

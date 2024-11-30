@@ -24,7 +24,6 @@ namespace Render
 			__launchEvents.emplace_back(std::make_shared<Cuda::Event>());
 
 		__kernelLauncher.setStream(renderStream.getHandle());
-		__kernelLauncher.setGridSize(16U, 16U);
 		__kernelLauncher.setSurfaceExtent(width, height);
 	}
 
