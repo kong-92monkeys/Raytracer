@@ -1,16 +1,16 @@
 #pragma once
 
-#include <cuda_runtime.h>
+#include "Viewport.h"
+#include "Hittable.h"
 
 namespace Render
 {
 	namespace Kernel
 	{
-		struct ResourceContext
+		struct RenderContext
 		{
 		public:
-			float3 sphereCenter	{ 0.0f, 0.0f, 0.0f };
-			float sphereRadius	{ 1.0f };
+			Hittable hittable{ };
 		};
 
 		struct SurfaceContext

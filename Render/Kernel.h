@@ -7,7 +7,8 @@ namespace Render
 	namespace Kernel
 	{
 		void launch(
-			ResourceContext const &resourceContext,
+			Viewport const &viewport,
+			RenderContext const &resourceContext,
 			SurfaceContext const &surfaceContext,
 			LaunchContext const &launchContext);
 	}

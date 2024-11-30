@@ -13,11 +13,32 @@
     <Filter Include="Kernel">
       <UniqueIdentifier>{843654d0-1313-4cc3-9803-f3f41a508fbe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Kernel\PixelHandler">
-      <UniqueIdentifier>{c63cc4a9-21cc-4132-98cf-2198070bb650}</UniqueIdentifier>
-    </Filter>
     <Filter Include="KernelLauncher">
       <UniqueIdentifier>{55aef834-bd1e-4d2e-bcb1-2724a7a62d00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Device">
+      <UniqueIdentifier>{26ca3e7d-6ead-4bde-b3c7-6fdcbc62ec2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Device\PixelHandler">
+      <UniqueIdentifier>{c63cc4a9-21cc-4132-98cf-2198070bb650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Device\CudaMath">
+      <UniqueIdentifier>{3958657b-9400-4f5e-b41c-637063d123a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\KernelContext">
+      <UniqueIdentifier>{a9f1167c-d629-4c6c-969d-5fc9b2bd01c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Viewport">
+      <UniqueIdentifier>{2ae9be91-a93e-4c69-948e-f5c726fe2420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Device\Ray">
+      <UniqueIdentifier>{48885567-2b5c-4c27-acc9-560a9dc60617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Device\RayCaster">
+      <UniqueIdentifier>{c49eb321-ad8c-4f6d-ad13-0c7989be3555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Hittable">
+      <UniqueIdentifier>{7d4a9b98-7e29-49f8-a0d8-9b85bce92f9b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -31,16 +52,31 @@
       <Filter>Kernel</Filter>
     </ClInclude>
     <ClInclude Include="PixelHandler.h">
-      <Filter>Kernel\PixelHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="KernelContext.h">
-      <Filter>Kernel</Filter>
+      <Filter>Kernel\Device\PixelHandler</Filter>
     </ClInclude>
     <ClInclude Include="KernelLauncher.h">
       <Filter>KernelLauncher</Filter>
     </ClInclude>
     <ClInclude Include="Layer.h">
       <Filter>Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="CudaMath.h">
+      <Filter>Kernel\Device\CudaMath</Filter>
+    </ClInclude>
+    <ClInclude Include="KernelContext.h">
+      <Filter>Kernel\KernelContext</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>Kernel\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="Ray.h">
+      <Filter>Kernel\Device\Ray</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCaster.h">
+      <Filter>Kernel\Device\RayCaster</Filter>
+    </ClInclude>
+    <ClInclude Include="Hittable.h">
+      <Filter>Kernel\Hittable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,7 +95,19 @@
       <Filter>Kernel</Filter>
     </CudaCompile>
     <CudaCompile Include="PixelHandler.cu">
-      <Filter>Kernel\PixelHandler</Filter>
+      <Filter>Kernel\Device\PixelHandler</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Ray.cu">
+      <Filter>Kernel\Device\Ray</Filter>
+    </CudaCompile>
+    <CudaCompile Include="RayCaster.cu">
+      <Filter>Kernel\Device\RayCaster</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Hittable.cu">
+      <Filter>Kernel\Hittable</Filter>
+    </CudaCompile>
+    <CudaCompile Include="CudaMath.cu">
+      <Filter>Kernel\Device\CudaMath</Filter>
     </CudaCompile>
   </ItemGroup>
 </Project>

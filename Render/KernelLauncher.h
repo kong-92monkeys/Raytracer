@@ -9,9 +9,12 @@ namespace Render
 	public:
 		KernelLauncher();
 
-		constexpr void temp_setSphere(
+		void temp_setSphere(
 			float3 const &center,
 			float const radius) noexcept;
+
+		constexpr void setViewport(
+			Kernel::Viewport const &viewport) noexcept;
 
 		constexpr void setSurface(
 			cudaSurfaceObject_t surface) noexcept;
@@ -26,19 +29,18 @@ namespace Render
 		void launch() const;
 
 	private:
-		Kernel::ResourceContext __resourceContext;
+		Kernel::Viewport __viewport;
+		Kernel::RenderContext __resourceContext;
 		Kernel::SurfaceContext __surfaceContext;
 		Kernel::LaunchContext __launchContext;
 
 		constexpr void __resolveBlockSize() noexcept;
 	};
 
-	constexpr void KernelLauncher::temp_setSphere(
-		float3 const &center,
-		float const radius) noexcept
+	constexpr void KernelLauncher::setViewport(
+		Kernel::Viewport const &viewport) noexcept
 	{
-		__resourceContext.sphereCenter = center;
-		__resourceContext.sphereRadius = radius;
+		__viewport = viewport;
 	}
 
 	constexpr void KernelLauncher::setSurface(

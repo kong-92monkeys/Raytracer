@@ -1,5 +1,6 @@
 #include "Kernel.h"
 #include "PixelHandler.h"
+#include "RayCaster.h"
 #include <device_launch_parameters.h>
 
 namespace Render
@@ -7,8 +8,9 @@ namespace Render
 	namespace Kernel
 	{
 		__global__ void launch_device(
-			ResourceContext const resourceContext,
-			SurfaceContext const surfaceContext)
+			RenderContext const renderContext,
+			SurfaceContext const surfaceContext,
+			RayCaster const rayCaster)
 		{
 			auto const gidX{ (blockIdx.x * blockDim.x) + threadIdx.x };
 			auto const gidY{ (blockIdx.y * blockDim.y) + threadIdx.y };
@@ -18,32 +20,36 @@ namespace Render
 			if (!(pixelHandler.isValid()))
 				return;
 
+			auto const ray{ rayCaster.cast(gidX, gidY) };
+
 			float4 color{ 0.0f, 0.0f, 0.0f, 1.0f };
 
-			float const rayX{ gidX * 1.0f };
-			float const rayY{ gidY * 1.0f };
-
-			float const deltaX{ rayX - resourceContext.sphereCenter.x };
-			float const deltaY{ rayY - resourceContext.sphereCenter.y };
-			float const radius{ resourceContext.sphereRadius };
-
-			if ((radius * radius) > ((deltaX * deltaX) + (deltaY * deltaY)))
+			auto const result{ renderContext.hittable.hit(ray) };
+			if (result.hit)
 				color.x = 1.0f;
 
 			pixelHandler.set(color);
 		}
 
 		void launch(
-			ResourceContext const &resourceContext,
+			Kernel::Viewport const &viewport,
+			RenderContext const &renderContext,
 			SurfaceContext const &surfaceContext,
 			LaunchContext const &launchContext)
 		{
+			RayCaster const rayCaster
+			{
+				viewport,
+				surfaceContext.width,
+				surfaceContext.height
+			};
+
 			launch_device<<<
 				launchContext.gridDim,
 				launchContext.blockDim,
 				0U,
 				launchContext.stream>>>
-				(resourceContext, surfaceContext);
+				(renderContext, surfaceContext, rayCaster);
 		}
 	}
 }
