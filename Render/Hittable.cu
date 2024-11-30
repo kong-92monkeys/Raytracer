@@ -50,9 +50,7 @@ namespace Render
 
 			// Discriminant
 			float const D{ (B * B) - (4.0f * A * C) };
-			retVal.hit = (D >= 0.0f);
-
-			/*if (D >= 0.0f)
+			if (D >= 0.0f)
 			{
 				float const Dsqrt{ sqrtf(D) };
 
@@ -65,7 +63,7 @@ namespace Render
 					retVal.hit = true;
 					retVal.spot = ray.at(rayLength);
 				}
-			}*/
+			}
 
 			return retVal;
 		}
