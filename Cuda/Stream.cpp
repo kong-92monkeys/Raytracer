@@ -44,6 +44,12 @@ namespace Cuda
 			throw std::runtime_error{ "Failed to record the given event with the stream." };
 	}
 
+	cudaError_t Stream::queryEvent(
+		Event &event)
+	{
+		return cudaEventQuery(event.getHandle());
+	}
+
 	void Stream::syncEvent(
 		Event &event)
 	{

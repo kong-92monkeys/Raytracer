@@ -19,6 +19,10 @@ namespace Cuda
 		void recordEvent(
 			Event &event);
 
+		[[nodiscard]]
+		cudaError_t queryEvent(
+			Event &event);
+
 		void syncEvent(
 			Event &event);
 
