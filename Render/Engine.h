@@ -1,7 +1,5 @@
 #pragma once
 
-#include <d3d11.h>
-#include <dxgi.h>
 #include "RenderTarget.h"
 #include <unordered_set>
 
@@ -15,7 +13,7 @@ namespace Render
 
 		[[nodiscard]]
 		RenderTarget *createRenderTarget(
-			HWND hWnd,
+			HWND hwnd,
 			UINT width,
 			UINT height,
 			UINT swapchainImageCount);

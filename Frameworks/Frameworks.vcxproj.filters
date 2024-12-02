@@ -16,6 +16,12 @@
     <Filter Include="Transform\Scale">
       <UniqueIdentifier>{b0e6241c-53a0-45b1-ab74-610714f47dde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RenderSystem">
+      <UniqueIdentifier>{80bfe8a2-6914-4718-9d38-42a0aeeb0e4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Display">
+      <UniqueIdentifier>{f025ab8b-8ad3-4ced-a245-d705581dac36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Transform.cpp">
@@ -33,6 +39,12 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
+    <ClCompile Include="RenderSystem.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Display.cpp">
+      <Filter>Display</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.h">
@@ -49,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Display.h">
+      <Filter>Display</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -70,7 +70,9 @@
     <ClCompile Include="AboutDlg.cpp">
       <Filter>AboutDlg</Filter>
     </ClCompile>
-    <ClCompile Include="FPSCamera.cpp" />
+    <ClCompile Include="FPSCamera.cpp">
+      <Filter>FPSCamera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="App.rc">

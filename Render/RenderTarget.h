@@ -42,9 +42,6 @@ namespace Render
 		void draw();
 		void present();
 
-		[[nodiscard]]
-		constexpr Infra::Event<RenderTarget *> &getResizeEvent() noexcept;
-
 	protected:
 		virtual void _onValidate() override;
 
@@ -111,11 +108,6 @@ namespace Render
 	constexpr bool RenderTarget::isPresentable() const noexcept
 	{
 		return (getWidth() && getHeight());
-	}
-
-	constexpr Infra::Event<RenderTarget *> &RenderTarget::getResizeEvent() noexcept
-	{
-		return __resizeEvent;
 	}
 
 	constexpr UINT RenderTarget::__getNextFrontBufferIdx() const noexcept

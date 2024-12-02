@@ -21,7 +21,7 @@ namespace Render
 	}
 
 	RenderTarget *Engine::createRenderTarget(
-		HWND const hWnd,
+		HWND const hwnd,
 		UINT const width,
 		UINT const height,
 		UINT const swapchainImageCount)
@@ -29,7 +29,7 @@ namespace Render
 		return new RenderTarget
 		{
 			__pDevice, __pDXGIFactory, *__pRenderStream,
-			hWnd, width, height, swapchainImageCount
+			hwnd, width, height, swapchainImageCount
 		};
 	}
 

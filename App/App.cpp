@@ -43,27 +43,26 @@ CApp theApp;
 
 // CApp initialization
 
-[[nodiscard]]
-Render::RenderTarget *CApp::createRenderTarget(
+Frx::Display *CApp::createDisplay(
 	HWND const hwnd,
 	UINT const width,
 	UINT const height,
 	UINT const swapchainImageCount)
 {
-	return __pRenderEngine->createRenderTarget(
+	return __pRenderSystem->createDisplay(
 		hwnd, width, height, swapchainImageCount);
 }
 
-void CApp::setMainRenderTarget(
-	Render::RenderTarget *const pRenderTarget)
+void CApp::setMainDisplay(
+	Frx::Display *const pDisplay)
 {
-	if (__pMainRenderTarget)
-		__pMainRenderTarget->getResizeEvent() -= __pMainRenderTargetResizeListener;
+	if (__pMainDisplay)
+		__pMainDisplay->getResizeEvent() -= __pMainDisplayResizeListener;
 
-	__pMainRenderTarget = pRenderTarget;
+	__pMainDisplay = pDisplay;
 
-	if (__pMainRenderTarget)
-		__pMainRenderTarget->getResizeEvent() += __pMainRenderTargetResizeListener;
+	if (__pMainDisplay)
+		__pMainDisplay->getResizeEvent() += __pMainDisplayResizeListener;
 }
 
 void CApp::onKeyDown(
@@ -119,27 +118,26 @@ BOOL CApp::InitInstance()
 int CApp::ExitInstance()
 {
 	//TODO: handle additional resources you may have added
-	__pRenderEngine = nullptr;
+	__pRenderSystem = nullptr;
 	return CWinApp::ExitInstance();
 }
 
 void CApp::__customInit()
 {
-	__pMainRenderTargetResizeListener =
-		Infra::EventListener<Render::RenderTarget *>::bind(
-			&CApp::__onMainRenderTargetResized, this);
+	__pMainDisplayResizeListener =
+		Infra::EventListener<Frx::Display *>::bind(
+			&CApp::__onMainDisplayResized, this);
 
-	__pRenderEngine = std::make_unique<Render::Engine>();
+	__pRenderSystem = std::make_unique<Frx::RenderSystem>();
 }
 
-
-void CApp::__onMainRenderTargetResized() noexcept
+void CApp::__onMainDisplayResized() noexcept
 {
-	if (!(__pMainRenderTarget->isPresentable()))
+	if (!(__pMainDisplay->isPresentable()))
 		return;
 
-	float const width	{ static_cast<float>(__pMainRenderTarget->getWidth()) };
-	float const height	{ static_cast<float>(__pMainRenderTarget->getHeight()) };
+	float const width	{ static_cast<float>(__pMainDisplay->getWidth()) };
+	float const height	{ static_cast<float>(__pMainDisplay->getHeight()) };
 
 	__camera.setAspectRatio(width / height);
 }
@@ -156,15 +154,14 @@ void CApp::OnAppAbout()
 BOOL CApp::OnIdle(LONG lCount)
 {
 	// TODO: Add your specialized code here and/or call the base class
-	__camera.moveLocalZ(0.001f);
-	__camera.validate();
-
-	if (__pMainRenderTarget)
+	if (__pMainDisplay)
 	{
-		__pRenderEngine->reserveRender(__pMainRenderTarget);
-		__pMainRenderTarget->setViewport(__camera.getViewport());
+		__camera.moveLocalZ(0.001f);
+		__camera.validate();
+
+		__pMainDisplay->setViewport(__camera.getViewport());
+		__pMainDisplay->requestRedraw();
 	}
 
-	__pRenderEngine->render();
 	return CWinApp::OnIdle(lCount);
 }

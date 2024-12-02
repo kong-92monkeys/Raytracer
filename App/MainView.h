@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "../Render/RenderTarget.h"
+#include "../Frameworks/Display.h"
 
 // CMainView window
 
@@ -39,5 +39,5 @@ public:
 	afx_msg BOOL OnEraseBkgnd(CDC *pDC);
 
 private:
-	std::unique_ptr<Render::RenderTarget> __pRenderTarget;
+	std::unique_ptr<Frx::Display> __pDisplay;
 };

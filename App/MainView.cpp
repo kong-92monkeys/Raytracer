@@ -58,13 +58,13 @@ int CMainView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	__pRenderTarget = std::unique_ptr<Render::RenderTarget>
+	__pDisplay = std::unique_ptr<Frx::Display>
 	{
-		theApp.createRenderTarget(
+		theApp.createDisplay(
 			GetSafeHwnd(), lpCreateStruct->cx, lpCreateStruct->cy, 4U)
 	};
 
-	theApp.setMainRenderTarget(__pRenderTarget.get());
+	theApp.setMainDisplay(__pDisplay.get());
 
 	return 0;
 }
@@ -75,7 +75,7 @@ void CMainView::OnSize(UINT nType, int cx, int cy)
 	CWnd::OnSize(nType, cx, cy);
 
 	// TODO: Add your message handler code here
-	__pRenderTarget->resize(cx, cy);
+	__pDisplay->resize(cx, cy);
 }
 
 
@@ -84,8 +84,8 @@ void CMainView::OnDestroy()
 	CWnd::OnDestroy();
 
 	// TODO: Add your message handler code here
-	theApp.setMainRenderTarget(nullptr);
-	__pRenderTarget = nullptr;
+	theApp.setMainDisplay(nullptr);
+	__pDisplay = nullptr;
 }
 
 

@@ -8,9 +8,7 @@
 #endif
 
 #include "resource.h"       // main symbols
-#include "../Infra/Event.h"
-#include "../Render/RenderTarget.h"
-#include "../Render/Engine.h"
+#include "../Frameworks/RenderSystem.h"
 #include "FPSCamera.h"
 
 // CApp:
@@ -23,14 +21,14 @@ public:
 	CApp() noexcept;
 
 	[[nodiscard]]
-	Render::RenderTarget *createRenderTarget(
+	Frx::Display *createDisplay(
 		HWND hwnd,
 		UINT width,
 		UINT height,
 		UINT swapchainImageCount);
 
-	void setMainRenderTarget(
-		Render::RenderTarget *pRenderTarget);
+	void setMainDisplay(
+		Frx::Display *pDisplay);
 
 	void onKeyDown(UINT nChar);
 	void onKeyUp(UINT nChar);
@@ -50,15 +48,15 @@ public:
 	virtual BOOL OnIdle(LONG lCount);
 
 private:
-	std::unique_ptr<Render::Engine> __pRenderEngine;
-	Render::RenderTarget *__pMainRenderTarget{ };
+	std::unique_ptr<Frx::RenderSystem> __pRenderSystem;
+	Frx::Display *__pMainDisplay{ };
 
 	FPSCamera __camera;
 
-	Infra::EventListenerPtr<Render::RenderTarget *> __pMainRenderTargetResizeListener;
+	Infra::EventListenerPtr<Frx::Display *> __pMainDisplayResizeListener;
 
 	void __customInit();
-	void __onMainRenderTargetResized() noexcept;
+	void __onMainDisplayResized() noexcept;
 };
 
 extern CApp theApp;
