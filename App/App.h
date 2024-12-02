@@ -8,9 +8,10 @@
 #endif
 
 #include "resource.h"       // main symbols
+#include "../Infra/Event.h"
 #include "../Render/RenderTarget.h"
 #include "../Render/Engine.h"
-#include "../Infra/Event.h"
+#include "../Frameworks/Camera.h"
 
 // CApp:
 // See App.cpp for the implementation of this class
@@ -49,7 +50,12 @@ private:
 	std::unique_ptr<Render::Engine> __pRenderEngine;
 	Render::RenderTarget *__pMainRenderTarget{ };
 
+	Frx::Camera __camera;
+
+	Infra::EventListenerPtr<Render::RenderTarget *> __pMainRenderTargetResizeListener;
+
 	void __customInit();
+	void __onMainRenderTargetResized() noexcept;
 };
 
 extern CApp theApp;

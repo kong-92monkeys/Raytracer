@@ -223,6 +223,9 @@
     <ProjectReference Include="..\Cuda\Cuda.vcxproj">
       <Project>{1a74e2f1-b13c-48f8-887e-1422733e5e48}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Frameworks\Frameworks.vcxproj">
+      <Project>{91ae7d56-2ffe-437b-a1bb-8f26a2ef455a}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Infra\Infra.vcxproj">
       <Project>{345affd6-6486-4518-94a6-f7e26117ab80}</Project>
     </ProjectReference>

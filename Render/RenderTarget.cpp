@@ -24,19 +24,7 @@ namespace Render
 
 		__kernelLauncher.setStream(renderStream.getHandle());
 		__kernelLauncher.setSurfaceExtent(width, height);
-		
-
 		__kernelLauncher.temp_setSphere(float3{ 0.0f, 0.0f, -10.0f }, 1.0f);
-
-		Kernel::Viewport viewport;
-		viewport.rayOrigin		= float3{ 0.0f, 0.0f, 0.0f };
-		viewport.viewportOrigin		= float3{ -4.0f, 4.0f, -4.0f };
-		viewport.right		= float3{ 1.0f, 0.0f, 0.0f };
-		viewport.down		= float3{ 0.0f, -1.0f, 0.0f };
-		viewport.width		= 8.0f;
-		viewport.height		= 8.0f;
-
-		__kernelLauncher.setViewport(viewport);
 
 		__createSwapchain(hwnd);
 		__resolveBackSurface();
@@ -51,6 +39,12 @@ namespace Render
 		__pSwapchainSurface = nullptr;
 		__pSwapchain->Release();
 		__launchEvents.clear();
+	}
+
+	void RenderTarget::setViewport(
+		Kernel::Viewport const &viewport) noexcept
+	{
+		__kernelLauncher.setViewport(viewport);
 	}
 
 	void RenderTarget::resize(
@@ -78,6 +72,8 @@ namespace Render
 
 		if (isPresentable())
 			__createSwapBuffers();
+
+		__resizeEvent.invoke(this);
 	}
 
 	void RenderTarget::draw()

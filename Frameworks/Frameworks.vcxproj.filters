@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{713d58f5-6a2e-4889-b1c1-52acc5e0c870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Transform">
+      <UniqueIdentifier>{5311d817-d798-44ff-b19f-d2c72efe3913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Transform\Orientation">
+      <UniqueIdentifier>{156491d3-ccd6-4578-8005-76bf96afa567}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Transform\Position">
+      <UniqueIdentifier>{7b779dae-bd6e-4aa2-afb5-dd0c5b5c4008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Transform\Scale">
+      <UniqueIdentifier>{b0e6241c-53a0-45b1-ab74-610714f47dde}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Orientation.cpp">
+      <Filter>Transform\Orientation</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>Transform\Position</Filter>
+    </ClCompile>
+    <ClCompile Include="Scale.cpp">
+      <Filter>Transform\Scale</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Transform.h">
+      <Filter>Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Orientation.h">
+      <Filter>Transform\Orientation</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Transform\Position</Filter>
+    </ClInclude>
+    <ClInclude Include="Scale.h">
+      <Filter>Transform\Scale</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

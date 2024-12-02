@@ -32,6 +32,9 @@ namespace Render
 		[[nodiscard]]
 		constexpr bool isPresentable() const noexcept;
 
+		void setViewport(
+			Kernel::Viewport const &viewport) noexcept;
+
 		void resize(
 			UINT width,
 			UINT height);
@@ -40,7 +43,7 @@ namespace Render
 		void present();
 
 		[[nodiscard]]
-		constexpr Infra::Event<RenderTarget const *> &getNeedRedrawEvent() const noexcept;
+		constexpr Infra::Event<RenderTarget *> &getResizeEvent() noexcept;
 
 	protected:
 		virtual void _onValidate() override;
@@ -66,11 +69,10 @@ namespace Render
 		UINT __width{ };
 		UINT __height{ };
 
+		KernelLauncher __kernelLauncher;
 		std::vector<std::shared_ptr<Cuda::Event>> __launchEvents;
 
-		KernelLauncher __kernelLauncher;
-
-		mutable Infra::Event<RenderTarget const *> __needRedrawEvent;
+		Infra::Event<RenderTarget *> __resizeEvent;
 
 		void __createSwapchain(
 			HWND hwnd);
@@ -111,9 +113,9 @@ namespace Render
 		return (getWidth() && getHeight());
 	}
 
-	constexpr Infra::Event<RenderTarget const *> &RenderTarget::getNeedRedrawEvent() const noexcept
+	constexpr Infra::Event<RenderTarget *> &RenderTarget::getResizeEvent() noexcept
 	{
-		return __needRedrawEvent;
+		return __resizeEvent;
 	}
 
 	constexpr UINT RenderTarget::__getNextFrontBufferIdx() const noexcept

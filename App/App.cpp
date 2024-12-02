@@ -33,6 +33,7 @@ CApp::CApp() noexcept
 
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
+	__camera.setFovY(45.0f);
 }
 
 // The one and only CApp object
@@ -56,7 +57,13 @@ Render::RenderTarget *CApp::createRenderTarget(
 void CApp::setMainRenderTarget(
 	Render::RenderTarget *const pRenderTarget)
 {
+	if (__pMainRenderTarget)
+		__pMainRenderTarget->getResizeEvent() -= __pMainRenderTargetResizeListener;
+
 	__pMainRenderTarget = pRenderTarget;
+
+	if (__pMainRenderTarget)
+		__pMainRenderTarget->getResizeEvent() += __pMainRenderTargetResizeListener;
 }
 
 BOOL CApp::InitInstance()
@@ -104,6 +111,27 @@ int CApp::ExitInstance()
 	return CWinApp::ExitInstance();
 }
 
+void CApp::__customInit()
+{
+	__pMainRenderTargetResizeListener =
+		Infra::EventListener<Render::RenderTarget *>::bind(
+			&CApp::__onMainRenderTargetResized, this);
+
+	__pRenderEngine = std::make_unique<Render::Engine>();
+}
+
+
+void CApp::__onMainRenderTargetResized() noexcept
+{
+	if (!(__pMainRenderTarget->isPresentable()))
+		return;
+
+	float const width	{ static_cast<float>(__pMainRenderTarget->getWidth()) };
+	float const height	{ static_cast<float>(__pMainRenderTarget->getHeight()) };
+
+	__camera.setAspectRatio(width / height);
+}
+
 // CApp message handlers
 
 // App command to run the dialog
@@ -113,16 +141,16 @@ void CApp::OnAppAbout()
 	aboutDlg.DoModal();
 }
 
-void CApp::__customInit()
-{
-	__pRenderEngine = std::make_unique<Render::Engine>();
-}
-
 BOOL CApp::OnIdle(LONG lCount)
 {
 	// TODO: Add your specialized code here and/or call the base class
+	__camera.validate();
+
 	if (__pMainRenderTarget)
+	{
 		__pRenderEngine->reserveRender(__pMainRenderTarget);
+		__pMainRenderTarget->setViewport(__camera.getViewport());
+	}
 
 	__pRenderEngine->render();
 	return CWinApp::OnIdle(lCount);
