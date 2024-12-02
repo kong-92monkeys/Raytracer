@@ -11,7 +11,7 @@
 #include "../Infra/Event.h"
 #include "../Render/RenderTarget.h"
 #include "../Render/Engine.h"
-#include "../Frameworks/Camera.h"
+#include "FPSCamera.h"
 
 // CApp:
 // See App.cpp for the implementation of this class
@@ -32,6 +32,9 @@ public:
 	void setMainRenderTarget(
 		Render::RenderTarget *pRenderTarget);
 
+	void onKeyDown(UINT nChar);
+	void onKeyUp(UINT nChar);
+
 // Overrides
 public:
 	virtual BOOL InitInstance();
@@ -50,7 +53,7 @@ private:
 	std::unique_ptr<Render::Engine> __pRenderEngine;
 	Render::RenderTarget *__pMainRenderTarget{ };
 
-	Frx::Camera __camera;
+	FPSCamera __camera;
 
 	Infra::EventListenerPtr<Render::RenderTarget *> __pMainRenderTargetResizeListener;
 

@@ -191,6 +191,7 @@
   <ItemGroup>
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="App.h" />
+    <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MainView.h" />
@@ -201,6 +202,7 @@
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp" />
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MainView.cpp" />
     <ClCompile Include="pch.cpp">

@@ -66,6 +66,18 @@ void CApp::setMainRenderTarget(
 		__pMainRenderTarget->getResizeEvent() += __pMainRenderTargetResizeListener;
 }
 
+void CApp::onKeyDown(
+	UINT const nChar)
+{
+	
+}
+
+void CApp::onKeyUp(
+	UINT const nChar)
+{
+
+}
+
 BOOL CApp::InitInstance()
 {
 	CWinApp::InitInstance();
@@ -144,6 +156,7 @@ void CApp::OnAppAbout()
 BOOL CApp::OnIdle(LONG lCount)
 {
 	// TODO: Add your specialized code here and/or call the base class
+	__camera.moveLocalZ(0.001f);
 	__camera.validate();
 
 	if (__pMainRenderTarget)

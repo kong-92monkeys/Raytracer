@@ -21,6 +21,9 @@
     <Filter Include="AboutDlg">
       <UniqueIdentifier>{29fd6d2e-af61-4d22-8a63-b983e86ce26e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FPSCamera">
+      <UniqueIdentifier>{b2648c43-c7c0-49a7-be1a-ce9714444443}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainFrm.h">
@@ -47,6 +50,9 @@
     <ClInclude Include="AboutDlg.h">
       <Filter>AboutDlg</Filter>
     </ClInclude>
+    <ClInclude Include="FPSCamera.h">
+      <Filter>FPSCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -64,6 +70,7 @@
     <ClCompile Include="AboutDlg.cpp">
       <Filter>AboutDlg</Filter>
     </ClCompile>
+    <ClCompile Include="FPSCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="App.rc">
