@@ -21,7 +21,9 @@
   <ItemGroup>
     <ClInclude Include="CudaMath.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="HittableContext.h" />
     <ClInclude Include="Hittable.h" />
+    <ClInclude Include="HitTester.h" />
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="KernelContext.h" />
     <ClInclude Include="KernelLauncher.h" />
@@ -30,6 +32,7 @@
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RayCaster.h" />
     <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Viewport.h" />
   </ItemGroup>
   <ItemGroup>
@@ -41,6 +44,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <CudaCompile Include="HitTester.cu" />
+    <ClCompile Include="Sphere.cpp" />
     <CudaCompile Include="CudaMath.cu">
       <FileType>Document</FileType>
     </CudaCompile>
@@ -51,9 +56,7 @@
     <CudaCompile Include="Kernel.cu">
       <FileType>Document</FileType>
     </CudaCompile>
-    <CudaCompile Include="Hittable.cu">
-      <FileType>Document</FileType>
-    </CudaCompile>
+    <ClCompile Include="Hittable.cpp" />
     <ClCompile Include="KernelLauncher.cpp" />
     <CudaCompile Include="Ray.cu">
       <FileType>Document</FileType>
@@ -117,11 +120,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(CUDA_PATH)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)ThirdParty\inc;$(CUDA_PATH)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(CUDA_PATH)\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(CUDA_PATH)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)ThirdParty\inc;$(CUDA_PATH)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(CUDA_PATH)\lib\x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

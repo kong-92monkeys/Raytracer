@@ -37,7 +37,16 @@
     <Filter Include="Kernel\Device\RayCaster">
       <UniqueIdentifier>{c49eb321-ad8c-4f6d-ad13-0c7989be3555}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Kernel\Hittable">
+    <Filter Include="Hittable">
+      <UniqueIdentifier>{07d8883a-7e38-4bf5-9c43-ec8e0d319a56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hittable\Sphere">
+      <UniqueIdentifier>{27e4914a-de11-4f0a-9939-7180a4d7d835}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\Device\HitTester">
+      <UniqueIdentifier>{2370ea12-50c2-46da-a9f3-06e8f0b58f3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kernel\HittableContext">
       <UniqueIdentifier>{7d4a9b98-7e29-49f8-a0d8-9b85bce92f9b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -57,9 +66,6 @@
     <ClInclude Include="KernelLauncher.h">
       <Filter>KernelLauncher</Filter>
     </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>Layer</Filter>
-    </ClInclude>
     <ClInclude Include="CudaMath.h">
       <Filter>Kernel\Device\CudaMath</Filter>
     </ClInclude>
@@ -75,8 +81,20 @@
     <ClInclude Include="RayCaster.h">
       <Filter>Kernel\Device\RayCaster</Filter>
     </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Layer</Filter>
+    </ClInclude>
     <ClInclude Include="Hittable.h">
-      <Filter>Kernel\Hittable</Filter>
+      <Filter>Hittable</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Hittable\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="HittableContext.h">
+      <Filter>Kernel\HittableContext</Filter>
+    </ClInclude>
+    <ClInclude Include="HitTester.h">
+      <Filter>Kernel\Device\HitTester</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +106,12 @@
     </ClCompile>
     <ClCompile Include="KernelLauncher.cpp">
       <Filter>KernelLauncher</Filter>
+    </ClCompile>
+    <ClCompile Include="Hittable.cpp">
+      <Filter>Hittable</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Hittable\Sphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,11 +127,11 @@
     <CudaCompile Include="RayCaster.cu">
       <Filter>Kernel\Device\RayCaster</Filter>
     </CudaCompile>
-    <CudaCompile Include="Hittable.cu">
-      <Filter>Kernel\Hittable</Filter>
-    </CudaCompile>
     <CudaCompile Include="CudaMath.cu">
       <Filter>Kernel\Device\CudaMath</Filter>
+    </CudaCompile>
+    <CudaCompile Include="HitTester.cu">
+      <Filter>Kernel\Device\HitTester</Filter>
     </CudaCompile>
   </ItemGroup>
 </Project>

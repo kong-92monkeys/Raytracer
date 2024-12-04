@@ -10,6 +10,9 @@
     <Filter Include="Event">
       <UniqueIdentifier>{86ac651e-d5e3-4c21-97be-9f3cf7ec10e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UnifiedBuffer">
+      <UniqueIdentifier>{99a7a705-1090-4f3f-b729-17c679734b2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Surface.h">
@@ -21,6 +24,9 @@
     <ClInclude Include="Event.h">
       <Filter>Event</Filter>
     </ClInclude>
+    <ClInclude Include="UnifiedBuffer.h">
+      <Filter>UnifiedBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Surface.cpp">
@@ -31,6 +37,9 @@
     </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="UnifiedBuffer.cpp">
+      <Filter>UnifiedBuffer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

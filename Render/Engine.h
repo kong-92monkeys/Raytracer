@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RenderTarget.h"
+#include "Sphere.h"
 #include <unordered_set>
 
 namespace Render
@@ -10,6 +11,11 @@ namespace Render
 	public:
 		Engine();
 		virtual ~Engine() noexcept override;
+
+		[[nodiscard]]
+		Sphere *createSphere(
+			glm::vec3 const &center,
+			float radius) noexcept;
 
 		[[nodiscard]]
 		RenderTarget *createRenderTarget(
@@ -37,9 +43,12 @@ namespace Render
 		std::unique_ptr<Cuda::Stream> __pRenderStream;
 		std::unordered_set<RenderTarget *> __reservedRenderTargets;
 
+		HittableManager __hittableManager;
+
 		void __createDevice();
 		void __resolveDXGIReferences();
 
 		void __validateReservedRenderTargets();
+		void __onHittableManagerUpdated();
 	};
 }

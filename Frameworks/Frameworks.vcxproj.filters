@@ -22,6 +22,9 @@
     <Filter Include="Display">
       <UniqueIdentifier>{f025ab8b-8ad3-4ced-a245-d705581dac36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{5d49e35d-e771-4632-ae7c-31258b6737d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Transform.cpp">
@@ -67,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="Display.h">
       <Filter>Display</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

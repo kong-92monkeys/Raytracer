@@ -60,6 +60,23 @@ namespace Cuda
 			throw std::runtime_error{ "Failed to sync the event." };
 	}
 
+	void Stream::prefetch(
+		UnifiedBuffer const &buffer,
+		size_t const from,
+		size_t const count)
+	{
+		auto const ptr{ buffer.getData() + from };
+
+		if (cudaMemPrefetchAsync(ptr, count, 0, getHandle()) != cudaError_t::cudaSuccess)
+			throw std::runtime_error{ "Cannot prefetch the memory." };
+	}
+
+	void Stream::prefetch(
+		UnifiedBuffer const &buffer)
+	{
+		prefetch(buffer, 0ULL, buffer.getSize());
+	}
+
 	void Stream::sync()
 	{
 		cudaError_t result{ };

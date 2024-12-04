@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Viewport.h"
-#include "Hittable.h"
+#include "HittableContext.h"
 
 namespace Render
 {
@@ -10,7 +10,7 @@ namespace Render
 		struct RenderContext
 		{
 		public:
-			Hittable hittable{ };
+			HittableContext hittableContext;
 		};
 
 		struct SurfaceContext

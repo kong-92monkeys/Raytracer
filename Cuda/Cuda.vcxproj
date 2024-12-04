@@ -22,6 +22,7 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="Stream.h" />
     <ClInclude Include="Surface.h" />
+    <ClInclude Include="UnifiedBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infra\Infra.vcxproj">
@@ -32,6 +33,7 @@
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Stream.cpp" />
     <ClCompile Include="Surface.cpp" />
+    <ClCompile Include="UnifiedBuffer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

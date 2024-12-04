@@ -34,6 +34,7 @@
     <ClInclude Include="Position.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Scale.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>

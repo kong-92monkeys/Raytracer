@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Event.h"
+#include "UnifiedBuffer.h"
 
 namespace Cuda
 {
@@ -25,6 +26,14 @@ namespace Cuda
 
 		void syncEvent(
 			Event &event);
+
+		void prefetch(
+			UnifiedBuffer const &buffer,
+			size_t from,
+			size_t count);
+
+		void prefetch(
+			UnifiedBuffer const &buffer);
 
 		void sync();
 	};

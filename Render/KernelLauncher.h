@@ -9,10 +9,6 @@ namespace Render
 	public:
 		KernelLauncher();
 
-		void temp_setSphere(
-			float3 const &center,
-			float const radius) noexcept;
-
 		constexpr void setViewport(
 			Kernel::Viewport const &viewport) noexcept;
 
@@ -30,7 +26,7 @@ namespace Render
 
 	private:
 		Kernel::Viewport __viewport;
-		Kernel::RenderContext __resourceContext;
+		Kernel::RenderContext __renderContext;
 		Kernel::SurfaceContext __surfaceContext;
 		Kernel::LaunchContext __launchContext;
 

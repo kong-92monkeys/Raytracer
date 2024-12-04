@@ -9,17 +9,10 @@ namespace Render
 		blockDim.y = 16U;
 	}
 
-	void KernelLauncher::temp_setSphere(
-		float3 const &center,
-		float const radius) noexcept
-	{
-		__resourceContext.hittable.asSphere(center, radius);
-	}
-
 	void KernelLauncher::launch() const
 	{
 		Kernel::launch(
-			__viewport, __resourceContext,
+			__viewport, __renderContext,
 			__surfaceContext, __launchContext);
 	}
 }

@@ -4,6 +4,12 @@ namespace Render
 {
 	Engine::Engine()
 	{
+		__pHittableManagerUpdateListener =
+			Infra::EventListener<HittableManager const *>::bind(
+				&Engine::__onHittableManagerUpdated, this);
+
+		__hittableManager.getUpdateEvent() += __pHittableManagerUpdateListener;
+
 		__createDevice();
 		__resolveDXGIReferences();
 		__pRenderStream = std::make_unique<Cuda::Stream>();
@@ -18,6 +24,13 @@ namespace Render
 		__pDXGIDevice->Release();
 		__pContext->Release();
 		__pDevice->Release();
+	}
+
+	Sphere *Engine::createSphere(
+		glm::vec3 const &center,
+		float const radius) noexcept
+	{
+		return new Sphere{ __hittableManager, center, radius };
 	}
 
 	RenderTarget *Engine::createRenderTarget(
@@ -126,5 +139,10 @@ namespace Render
 			else
 				it = __reservedRenderTargets.erase(it);
 		}
+	}
+
+	void Engine::__onHittableManagerUpdated()
+	{
+
 	}
 }
